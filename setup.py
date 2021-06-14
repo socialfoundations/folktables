@@ -1,25 +1,22 @@
 from setuptools import setup, find_packages
 
 setup(
-    name="tablebench",
-    author="Frances Ding, Ludwig Schmidt, Moritz Hardt",
+    name="folktable",
+    author="John Miller, Frances Ding, Ludwig Schmidt, Moritz Hardt",
+    author_email="miller_john@berkeley.edu",
     description="New machine learning benchmarks from tabular datasets.",
+    packages=find_packages(),
     install_requires=[
-		"click",
-        "fairlearn",
-        "ipympl",
-        "joblib",
-        "lightgbm",
-        "matplotlib",
-		"numba",
 		"numpy",
         "pandas",
 		"pytest",
-		"scipy",
-		"sklearn",
-		"statsmodels",
-		"tqdm",
-        "xgboost",
+        "sklearn",
+    ],
+    classifiers=[
+        "Programming Language :: Python :: 3",
+        "License :: OSI Approved :: MIT License",
+        "Operating System :: MacOS",
+        "Operating System :: POSIX",
     ],
     python_requires=">=3.7",
 )
