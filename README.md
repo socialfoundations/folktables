@@ -1,13 +1,50 @@
 # Folktables
 
+**Folktables** is a TODO: one-paragraph description.
 
-# TODO: Add to PyPI.
-To make the shared code available outside the `pkg/tablebench` directory, you can make the code accessible as a Python package by running the following command in the `pkg` directory:
+
+## Table of Contents
+1. [Basic installation instructions](#basic-installation-instructions)
+2. [Quick start examples](#quick-start-examples)
+3. [Datasets in folktables](#datasets-in-folktables)
+5. [Frequently asked questions](#frequently-asked-questions)
+6. [Citing folkTables](#citing-folktables)
+
+Folktables is still under active development! If you find bugs or have feature
+requests, please file a
+[Github issue](https://github.com/zykls/folktables/issues). 
+We welcome all kinds of issues, especially those related to correctness, documentation, performance, and new features.
+
+
+## Basic installation instructions
+1. (Optionally) create a virtual environment
 ```
-pip install -e .
+python3 -m venv folkenv
+source folkenv/bin/activate
 ```
-This also installs the dependencies for our shared code listed in `setup.py` (e.g., NumPy, Pandas, etc.) if they are not available yet.
-After installing the package, you can simply import the code with
+2. Install via pip
 ```
-import tablebench
+pip install folktables
 ```
+You can also install folktables directly from source.
+```
+git clone https://github.com/zykls/folktables.git
+cd folktables
+pip install -r requirements.txt
+```
+
+
+## Quick start examples
+TODO!
+
+
+## Datasets in folktables
+TODO!
+
+
+## Frequently asked questions
+TODO!
+
+
+## Citing folktables
+TODO!

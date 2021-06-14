@@ -1,15 +1,15 @@
 from setuptools import setup, find_packages
 
 setup(
-    name="folktable",
+    name="folktables",
+    version="0.0.0",
     author="John Miller, Frances Ding, Ludwig Schmidt, Moritz Hardt",
     author_email="miller_john@berkeley.edu",
     description="New machine learning benchmarks from tabular datasets.",
     packages=find_packages(),
     install_requires=[
-		"numpy",
+        "numpy",
         "pandas",
-		"pytest",
         "sklearn",
     ],
     classifiers=[
