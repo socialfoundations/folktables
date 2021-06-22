@@ -35,8 +35,34 @@ pip install -r requirements.txt
 
 
 ## Quick start examples
-TODO!
+### Loading pre-defined prediction tasks
+Folktables contains a suite of prediction tasks derived from US Census data that can be easily downloaded and inputted into learning algorithms of interest. First we download the raw data from the US Census Bureau.
+```
+cd data
+./download_pums.sh
+```
+By default this downloads data from the 1-Year sample in 2018, for all states in the US, but the `year` and `horizon` variables in `download_pums.sh` can be easily edited to download data from other years. Next we instantiate the prediction task of interest, for example, ACSEmployment, on this data sample. Here we also select which US states' data to include.
+```py
+from folktables import PUMSDataSource, ACSEmployment
 
+data_source = PUMSDataSource(survey_year='2018', horizon='1-Year', survey='person')
+pums_persons = data_source.get_data(states=['CA', 'NY'])
+features, label, group = ACSEmployment.df_to_numpy(pums_persons)
+```
+Finally, we can apply machine learning algorithms to the instantiated prediction task. For example, we may train a logistic regression model from sci-kit learn.
+```py
+from sklearn.linear_model import LogisticRegression
+from sklearn.model_selection import train_test_split
+
+X_train, X_test, y_train, y_test, group_train, group_test = train_test_split(features, label, group, test_size=0.2, random_state=0)
+model = LogisticRegression()
+model.fit(X_train, y_train)
+model.score(X_test, y_test)
+```
+
+### Creating a new prediction task
+Folktables also makes it seamless to create a new prediction task based on US Census data.
+TODO!
 
 ## Datasets in folktables
 TODO!
