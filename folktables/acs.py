@@ -1,29 +1,27 @@
-"""Data source and problem definitions for Census Public Use Microdata Sample (PUMS)."""
+"""Data source and problem definitions for American Community Survey (ACS) Public Use Microdata Sample (PUMS)."""
 import os
-import requests
-import zipfile
 
 import numpy as np
 import pandas as pd
 from sklearn import preprocessing
 
-from . import load_pums
-from . import data_source
+from . import folktables
+from .load_acs import load_acs
 
 
-class PUMSDataSource(data_source.DataSource):
-    """Data source implementation for Census Public Use Microdata Sample."""
+class ACSDataSource(folktables.DataSource):
+    """Data source implementation for ACS PUMS data."""
 
     def __init__(self, survey_year, horizon, survey, root_dir="data"):
         """Create data source around PUMS data for specific year, time horizon, survey type.
 
         Args:
-            survey_year: String. Year of PUMS data, e.g., '2018'
+            survey_year: String. Year of ACS PUMS data, e.g., '2018'
             horizon: String. Must be '1-Year' or '5-Year'
             survey: String. Must be 'person' or 'household'
 
         Returns:
-            PUMSDataSource
+            ACSDataSource
         """
         if horizon not in ['1-Year', '5-Year']:
             raise ValueError(f'Horizon must be either "1-Year" or "5-Year"')
@@ -34,24 +32,24 @@ class PUMSDataSource(data_source.DataSource):
 
     def get_data(self, states=None, density=1.0, random_seed=0, join_household=False, download=False):
         """Get data from given list of states, density, and random seed. Optionally add household features."""
-        data = load_pums.load_pums(root_dir=self._root_dir,
-                                   year=self._survey_year,
-                                   states=states,
-                                   horizon=self._horizon,
-                                   survey=self._survey,
-                                   density=density,
-                                   random_seed=random_seed,
-                                   download=download)
+        data = load_acs(root_dir=self._root_dir,
+                        year=self._survey_year,
+                        states=states,
+                        horizon=self._horizon,
+                        survey=self._survey,
+                        density=density,
+                        random_seed=random_seed,
+                        download=download)
         if join_household:
             orig_len = len(data)
             assert self._survey == 'person'
-            household_data = load_pums.load_pums(root_dir=self._root_dir,
-                                                 year=self._survey_year,
-                                                 states=states,
-                                                 horizon=self._horizon,
-                                                 survey='household',
-                                                 serial_filter_list=list(data['SERIALNO']),
-                                                 download=download)
+            household_data = load_acs(root_dir=self._root_dir,
+                                      year=self._survey_year,
+                                      states=states,
+                                      horizon=self._horizon,
+                                      survey='household',
+                                      serial_filter_list=list(data['SERIALNO']),
+                                      download=download)
             
             # We only want to keep the columns in the household dataframe that don't appear in the person
             # dataframe, but we *do* want to include the SERIALNO column to merge on.
@@ -79,7 +77,7 @@ def adult_filter(data):
     return df
 
 
-PUMSAdult = data_source.BasicProblem(
+ACSIncome = folktables.BasicProblem(
     feature_transforms={
         'AGEP': None,
         'COW': None,
@@ -99,29 +97,7 @@ PUMSAdult = data_source.BasicProblem(
     postprocess=preprocessing.scale
 )
 
-PUMSAdultSex = data_source.BasicProblem(
-    feature_transforms={
-        'AGEP': None,
-        'COW': None,
-        'SCHL' : None,
-        'MAR' : None,
-        'OCCP' : None,
-        'POBP' : None,
-        'RELP' : None,
-        'WKHP' : None,
-        'SEX' : None,
-        'RAC1P' : None
-    },
-    target='PINCP',
-    target_transform=lambda x: x > 50000,    
-    group='SEX',
-    preprocess=adult_filter,
-    postprocess=preprocessing.scale
-)
-
-
-
-PUMSEmployment = data_source.BasicProblem(
+ACSEmployment = folktables.BasicProblem(
     feature_transforms={
         'AGEP' : None,
         'SCHL' : None,
@@ -148,7 +124,7 @@ PUMSEmployment = data_source.BasicProblem(
 )
 
 
-PUMSHealthInsurance = data_source.BasicProblem(
+ACSHealthInsurance = folktables.BasicProblem(
     feature_transforms={
         'AGEP' : None,
         'SCHL' : None,
@@ -192,7 +168,7 @@ def public_coverage_filter(data):
     df = df[df['PINCP'] <= 30000]
     return df
 
-PUMSPublicCoverage = data_source.BasicProblem(
+ACSPublicCoverage = folktables.BasicProblem(
     feature_transforms={
         'AGEP' : None,
         'SCHL' : None,
@@ -231,7 +207,7 @@ def travel_time_filter(data):
     df = df[df['ESR'] == 1]
     return df
 
-PUMSTravelTime = data_source.BasicProblem(
+ACSTravelTime = folktables.BasicProblem(
     feature_transforms={
         'AGEP': None,
         'SCHL': None,
@@ -257,7 +233,7 @@ PUMSTravelTime = data_source.BasicProblem(
     postprocess=lambda x: preprocessing.scale(np.nan_to_num(x, -1))
 )
 
-PUMSMobility = data_source.BasicProblem(
+ACSMobility = folktables.BasicProblem(
     feature_transforms={
         'AGEP': None,
         'SCHL': None,
@@ -298,7 +274,7 @@ def employment_filter(data):
     df = df[df['PWGTP'] >= 1]
     return df
 
-PUMSEmploymentFiltered = data_source.BasicProblem(
+ACSEmploymentFiltered = folktables.BasicProblem(
     feature_transforms={
         'AGEP': None,
         'SCHL': None,
@@ -325,7 +301,7 @@ PUMSEmploymentFiltered = data_source.BasicProblem(
     postprocess=lambda x: preprocessing.scale(np.nan_to_num(x, -1))
 )
 
-PUMSIncomePovertyRatio = data_source.BasicProblem(
+ACSIncomePovertyRatio = folktables.BasicProblem(
     feature_transforms={
         'AGEP': None,
         'SCHL': None,

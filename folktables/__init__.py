@@ -1,3 +1,3 @@
-from . import data_source
-from . import pums
-from .load_pums import state_list
+from .folktables import *
+from .acs import *
+from .load_acs import state_list

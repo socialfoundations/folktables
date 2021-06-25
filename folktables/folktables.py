@@ -1,4 +1,4 @@
-"""Implements abstract classes for data source and problem definitions."""
+"""Implements abstract classes for folktables data source and problem definitions."""
 
 from abc import ABC, abstractmethod
 

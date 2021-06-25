@@ -1,4 +1,4 @@
-"""Load PUMS data from Census CSV files."""
+"""Load ACS PUMS data from Census CSV files."""
 import os
 import random
 import io
@@ -64,9 +64,9 @@ def initialize_and_download(datadir, state, year, horizon, survey, download=Fals
     if os.path.isfile(file_path):
         return file_path
     if not download:
-        raise FileNotFoundError(f'Could not find {survey} survey data for state {state} with year {year} and horizon {horizon} in {datadir}.  Call get_data with download=True to download the dataset.')
+        raise FileNotFoundError(f'Could not find {year} {horizon} {survey} survey data for {state} in {datadir}. Call get_data with download=True to download the dataset.')
     
-    print('Downloading data for {year} {horizon} {survey} survey for {state}...')
+    print(f'Downloading data for {year} {horizon} {survey} survey for {state}...')
     # Download and extract file
     base_url= f'https://www2.census.gov/programs-surveys/acs/data/pums/{year}/{horizon}'
     remote_fname = f'csv_{survey_code}{state.lower()}.zip'
@@ -80,12 +80,12 @@ def initialize_and_download(datadir, state, year, horizon, survey, download=Fals
     return file_path
 
 
-def load_pums(root_dir, states=None, year=2018, horizon='1-Year',
-              survey='person', density=1, random_seed=1,
-              serial_filter_list=None,
-              download=False):
+def load_acs(root_dir, states=None, year=2018, horizon='1-Year',
+             survey='person', density=1, random_seed=1,
+             serial_filter_list=None,
+             download=False):
     """
-    Load sample of PUMS data from Census csv files into DataFrame.
+    Load sample of ACS PUMS data from Census csv files into DataFrame.
 
     If a serial filter list is passed in, density and random_seed are ignored
     and the output is instead filtered with the provided list (only entries with

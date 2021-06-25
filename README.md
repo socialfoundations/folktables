@@ -41,11 +41,11 @@ We first construct a data source and download data from the 1-Year sample in
 2018 for California (`CA`) and New York (`NY`). Next we instantiate the
 prediction task of interest, for example, ACSEmployment, on this data sample.
 ```py
-from folktables import PUMSDataSource, ACSEmployment
+from folktables import ACSDataSource, ACSEmployment
 
-data_source = PUMSDataSource(survey_year='2018', horizon='1-Year', survey='person')
-pums_persons = data_source.get_data(states=['CA', 'NY'], download=True)
-features, label, group = ACSEmployment.df_to_numpy(pums_persons)
+data_source = ACSDataSource(survey_year='2018', horizon='1-Year', survey='person')
+acs_data = data_source.get_data(states=['CA', 'NY'], download=True)
+features, label, group = ACSEmployment.df_to_numpy(acs_data)
 ```
 Finally, we can apply machine learning algorithms to the instantiated prediction task. For example, we may train a logistic regression model from sci-kit learn.
 ```py
