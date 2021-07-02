@@ -9,6 +9,7 @@
 3. [Prediction tasks in folktables](#prediction-tasks-in-folktables)
 5. [Scope and limitations](#scope-and-limitations)
 6. [Citing folkTables](#citing-folktables)
+7. [References](#references)
 
 Folktables is still under active development! If you find bugs or have feature
 requests, please file a
@@ -80,10 +81,19 @@ Each of these tasks can be instantiated on different ACS PUMS data samples, as i
 
 
 ## Scope and limitations
-Census data is often used by social scientists to study the extent of inequality in income, employment, education, housing or other aspects of life. Such important substantive investigations should necessarily inform debates about discrimination in classification scenarios within these domains. However, folktables' contribution is not in this direction. The package uses Census data for the empirical study of machine learning algorithms that attempt to predict outcomes for individuals -- folktables may be used to compare different methods on axes including accuracy, robustness, and fairness metric satisfaction, on an array of different concrete settings. The distinction we draw between benchmark data and substantive domain-specific investigations resonates with recent work that points out issues with using data about risk assessments tools from the criminal justice domain as machine learning benchmarks~\cite{bao2021s}.
+Census data is often used by social scientists to study the extent of inequality in income, employment, education, housing or other aspects of life. Such important substantive investigations should necessarily inform debates about discrimination in classification scenarios within these domains. However, folktables' contribution is not in this direction. The package uses Census data for the empirical study of machine learning algorithms that attempt to predict outcomes for individuals. Folktables may be used to compare different methods on axes including accuracy, robustness, and fairness metric satisfaction, in an array of different concrete settings. The distinction we draw between benchmark data and substantive domain-specific investigations resonates with recent work that points out issues with using data about risk assessments tools from the criminal justice domain as machine learning benchmarks [[1]](#1).
 
-Another notable if obvious limitation of our work is that it is entirely US-centric. A richer dataset ecosystem covering international contexts within the algorithmic fairness community is still lacking. Although empirical work in the Global South is central in other disciplines, there continues to be much need for the North American fairness community to engage with it more strongly \citep{abebe2021narratives}.
+Another notable if obvious limitation of our work is that it is entirely US-centric. A richer dataset ecosystem covering international contexts within the algorithmic fairness community is still lacking. Although empirical work in the Global South is central in other disciplines, there continues to be much need for the North American fairness community to engage with it more strongly [[2]](#2).
 
 
 ## Citing folktables
 TODO!
+
+
+
+## References
+<a id="1">[1]</a> 
+M. Bao, A. Zhou, S. Zottola, B. Brubach, S. Desmarais, A. Horowitz, K. Lum, and S. Venkatasubramanian. It’s compaslicated: The messy relationship between rai datasets and algorithmic fairness benchmarks. arXiv preprint arXiv:2106.05498, 2021.
+
+<a id="2">[2]</a> 
+R. Abebe, K. Aruleba, A. Birhane, S. Kingsley, G. Obaido, S. L. Remy, and S. Sadagopan. Narratives and counternarratives on data sharing in africa. In Proc. of the ACM Conference on Fairness, Accountability, and Transparency, pages 329–341, 2021.
