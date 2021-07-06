@@ -8,7 +8,7 @@
 2. [Quick start examples](#quick-start-examples)
 3. [Prediction tasks in folktables](#prediction-tasks-in-folktables)
 5. [Scope and limitations](#scope-and-limitations)
-6. [Citing folkTables](#citing-folktables)
+6. [Citing folktables](#citing-folktables)
 7. [References](#references)
 
 Folktables is still under active development! If you find bugs or have feature
@@ -93,7 +93,7 @@ TODO!
 
 ## References
 <a id="1">[1]</a> 
-M. Bao, A. Zhou, S. Zottola, B. Brubach, S. Desmarais, A. Horowitz, K. Lum, and S. Venkatasubramanian. It’s compaslicated: The messy relationship between rai datasets and algorithmic fairness benchmarks. arXiv preprint arXiv:2106.05498, 2021.
+M. Bao, A. Zhou, S. Zottola, B. Brubach, S. Desmarais, A. Horowitz, K. Lum, and S. Venkatasubramanian. It’s compaslicated: The messy relationship between RAI datasets and algorithmic fairness benchmarks. arXiv preprint arXiv:2106.05498, 2021.
 
 <a id="2">[2]</a> 
-R. Abebe, K. Aruleba, A. Birhane, S. Kingsley, G. Obaido, S. L. Remy, and S. Sadagopan. Narratives and counternarratives on data sharing in africa. In Proc. of the ACM Conference on Fairness, Accountability, and Transparency, pages 329–341, 2021.
+R. Abebe, K. Aruleba, A. Birhane, S. Kingsley, G. Obaido, S. L. Remy, and S. Sadagopan. Narratives and counternarratives on data sharing in Africa. In Proc. of the ACM Conference on Fairness, Accountability, and Transparency, pages 329–341, 2021.
