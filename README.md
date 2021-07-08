@@ -99,14 +99,58 @@ white_trp - black_trp
 ```
 
 ### Distribution shift across states
+Each prediction problem in Folktables can be instantiated on data from every US
+state. This allows us to not just construct a diverse set of test environments,
+but also to use Folktables to study questions aroud distribution shift. For
+example, we can train a classifier using data from California and then evaluate
+it on data from Michigan.
+```py
+from folktables import ACSDataSource, ACSIncome
+from sklearn.linear_model import LogisticRegression
 
+data_source = ACSDataSource(survey_year='2018', horizon='1-Year', survey='person')
+ca_data = data_source.get_data(states=["CA"], download=True)
+mi_data = data_source.get_data(states=["MI"], download=True)
+ca_features, ca_label, _ = ACSIncome.df_to_numpy(ca_data)
+mi_features, mi_label, _ = ACSIncome.df_to_numpy(mi_data)
 
+# Plug-in your method for tabular datasets
+model = LogisticRegression()
+
+# Train on CA data
+model.fit(ca_features, ca_labels)
+
+# Test on MI data
+model.score(mi_features, mi_labels)
+```
 
 ### Distribution shift across time
+In addition to the variation in distributions across states discussed
+previously, Folktables also contains ACS data for several different years, which
+itself constitutes a form of _temporal_ distribution shift. For
+example, we can train a classifier using data from California in 2014 and
+evaluate how it's equality of opportunity violation or accuracy varies over time.
+```py
+from folktables import ACSDataSource, ACSPublicCoverage
+from sklearn.linear_model import LogisticRegression
 
-### Creating a new prediction task
-Folktables also makes it seamless to create a new prediction task based on US Census data.
-TODO!
+data_source = ACSDataSource(survey_year=2014, horizon='1-Year', survey='person')
+acs_data14 = data_source.get_data(states=["CA"], download=True)
+features14, labels14, _ = ACSPublicCoverage.df_to_numpy(acs_data14)
+
+# Train model on 2014 data
+# Plug-in your method for tabular datasets
+model = LogisticRegression()
+model.fit(features14, labels14)
+
+# Evaluate model on 2015-2018 data
+accuracies = []
+for year in [2015, 2016, 2017, 2018]:
+    data_source = ACSDataSource(survey_year=year, horizon='1-Year', survey='person')
+    acs_data = data_source.get_data(states=["CA"], download=True)
+    features, labels, _ = ACSPublicCoverage.df_to_numpy(acs_data)
+    accuracies.append(model.score(features, labels))
+```
 
 ## Prediction tasks in folktables
 Folktables provides the following pre-defined prediction tasks:
@@ -123,16 +167,52 @@ Folktables provides the following pre-defined prediction tasks:
 
 Each of these tasks can be instantiated on different ACS PUMS data samples, as illustrated in the [quick start examples](#quick-start-examples).
 
+### Creating a new prediction task
+Folktables also makes it seamless to construct new prediction tasks based on US
+Census data. 
 
 
 ## Scope and limitations
-Census data is often used by social scientists to study the extent of inequality in income, employment, education, housing or other aspects of life. Such important substantive investigations should necessarily inform debates about discrimination in classification scenarios within these domains. However, folktables' contribution is not in this direction. The package uses Census data for the empirical study of machine learning algorithms that attempt to predict outcomes for individuals. Folktables may be used to compare different methods on axes including accuracy, robustness, and fairness metric satisfaction, in an array of different concrete settings. The distinction we draw between benchmark data and substantive domain-specific investigations resonates with recent work that points out issues with using data about risk assessments tools from the criminal justice domain as machine learning benchmarks [[1]](#1).
+Census data is often used by social scientists to study the extent of inequality
+in income, employment, education, housing or other aspects of life. Such
+important substantive investigations should necessarily inform debates about
+discrimination in classification scenarios within these domains. However,
+folktables' contribution is not in this direction. The package uses Census data
+for the empirical study of machine learning algorithms that attempt to predict
+outcomes for individuals. Folktables may be used to compare different methods on
+axes including accuracy, robustness, and fairness metric satisfaction, in an
+array of different concrete settings. The distinction we draw between benchmark
+data and substantive domain-specific investigations resonates with recent work
+that points out issues with using data about risk assessments tools from the
+criminal justice domain as machine learning benchmarks [[1]](#1).
 
-Another notable if obvious limitation of our work is that it is entirely US-centric. A richer dataset ecosystem covering international contexts within the algorithmic fairness community is still lacking. Although empirical work in the Global South is central in other disciplines, there continues to be much need for the North American fairness community to engage with it more strongly [[2]](#2).
+Another notable if obvious limitation of our work is that it is entirely
+US-centric. A richer dataset ecosystem covering international contexts within
+the algorithmic fairness community is still lacking. Although empirical work in
+the Global South is central in other disciplines, there continues to be much
+need for the North American fairness community to engage with it more strongly
+[[2]](#2).
+
+
+## License and terms of use
+Folktables provides code to download data from the American Community Survey
+(ACS) Public Use Microdata Sample (PUMS) files managed by the US Census Bureau.
+The data itself is governed by the terms of use provided by the Census Bureau.
+For more information, see
+\url{https://www.census.gov/data/developers/about/terms-of-service.html}
+
+The Adult reconstruction dataset is a subsample of the IPUMS CPS data available
+from <cps.ipums.org>. [[2]](#2). The data are intended for replication purposes
+only. Individuals analyzing the data for other purposes must submit a separate
+data extract request directly via IPUMS CPS. Individuals are not to redistribute
+the data without permission. Contact <ipums@umn.edu> for redistribution
+requests. 
 
 
 ## Citing folktables
 TODO!
+
+If you make use of the Adult Reconstruction, please additionally cite [[3]](#3).
 
 
 
@@ -142,3 +222,7 @@ M. Bao, A. Zhou, S. Zottola, B. Brubach, S. Desmarais, A. Horowitz, K. Lum, and 
 
 <a id="2">[2]</a> 
 R. Abebe, K. Aruleba, A. Birhane, S. Kingsley, G. Obaido, S. L. Remy, and S. Sadagopan. Narratives and counternarratives on data sharing in Africa. In Proc. of the ACM Conference on Fairness, Accountability, and Transparency, pages 329–341, 2021.
+
+<a id="3">[2]</a> 
+S. Flood, M. King, R. Rodgers, S. Ruggles and J. Robert Warren.  Integrated Public Use Microdata Series, Current Population Survey: Version 8.0 [dataset].  Minneapolis, MN: IPUMS, 2020. https://doi.org/10.18128/D030.V8.0
+
