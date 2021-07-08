@@ -38,6 +38,10 @@ pip install -r requirements.txt
 ## Quick start examples
 Folktables contains a suite of prediction tasks derived from US Census data that
 can be easily downloaded and used for a variety of benchmarking tasks.
+For information about the features, response, or group membership coding for any
+of the datasets, please refer to the [ACS Pums
+documentation](https://www.census.gov/programs-surveys/acs/microdata/documentation.html).
+
 
 ### Evaluating algorithms for fair machine learning
 We first construct a data source for the 2018 yearly [American Community
@@ -85,7 +89,7 @@ tx_features, tx_label, tx_group = ACSEmployment.df_to_numpy(acs_tx)
 
 features, label, group = ACSEmployment.df_to_numpy(acs_tx)
 X_train, X_test, y_train, y_test, group_train, group_test = train_test_split(
-    features, label, group, test_size=0.2, random_state=0)
+    tx_features, tx_label, tx_group, test_size=0.2, random_state=0)
 
 model = LogisticRegression()
 model.fit(X_train, y_train)
@@ -111,8 +115,8 @@ from sklearn.linear_model import LogisticRegression
 data_source = ACSDataSource(survey_year='2018', horizon='1-Year', survey='person')
 ca_data = data_source.get_data(states=["CA"], download=True)
 mi_data = data_source.get_data(states=["MI"], download=True)
-ca_features, ca_label, _ = ACSIncome.df_to_numpy(ca_data)
-mi_features, mi_label, _ = ACSIncome.df_to_numpy(mi_data)
+ca_features, ca_labels, _ = ACSIncome.df_to_numpy(ca_data)
+mi_features, mi_labels, _ = ACSIncome.df_to_numpy(mi_data)
 
 # Plug-in your method for tabular datasets
 model = LogisticRegression()
@@ -202,11 +206,10 @@ For more information, see
 \url{https://www.census.gov/data/developers/about/terms-of-service.html}
 
 The Adult reconstruction dataset is a subsample of the IPUMS CPS data available
-from <cps.ipums.org>. [[2]](#2). The data are intended for replication purposes
-only. Individuals analyzing the data for other purposes must submit a separate
-data extract request directly via IPUMS CPS. Individuals are not to redistribute
-the data without permission. Contact <ipums@umn.edu> for redistribution
-requests. 
+from <cps.ipums.org>. The data are intended for replication purposes only.
+Individuals analyzing the data for other purposes must submit a separate data
+extract request directly via IPUMS CPS. Individuals are not to redistribute the
+data without permission. Contact <ipums@umn.edu> for redistribution requests. 
 
 
 ## Citing folktables
