@@ -39,7 +39,7 @@ pip install -r requirements.txt
 Folktables contains a suite of prediction tasks derived from US Census data that
 can be easily downloaded and used for a variety of benchmarking tasks.
 For information about the features, response, or group membership coding for any
-of the datasets, please refer to the [ACS Pums
+of the datasets, please refer to the [ACS PUMS
 documentation](https://www.census.gov/programs-surveys/acs/microdata/documentation.html).
 
 
@@ -56,7 +56,7 @@ acs_data = data_source.get_data(states=["CA"], download=True)
 features, label, group = ACSEmployment.df_to_numpy(acs_data)
 ```
 Next we train a simple model on this dataset and use the `group` labels to
-evaluate the models violation of [equality of opportunity](https://fairmlbook.org/), a common fairness
+evaluate the model's violation of [equality of opportunity](https://fairmlbook.org/), a common fairness
 metric.
 ```py
 import numpy as np
