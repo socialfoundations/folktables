@@ -251,14 +251,13 @@ need for the North American fairness community to engage with it more strongly
 Folktables provides code to download data from the American Community Survey
 (ACS) Public Use Microdata Sample (PUMS) files managed by the US Census Bureau.
 The data itself is governed by the terms of use provided by the Census Bureau.
-For more information, see
-\url{https://www.census.gov/data/developers/about/terms-of-service.html}
+For more information, see https://www.census.gov/data/developers/about/terms-of-service.html
 
 The Adult reconstruction dataset is a subsample of the IPUMS CPS data available
-from <cps.ipums.org>. The data are intended for replication purposes only.
+from https://cps.ipums.org/. The data are intended for replication purposes only.
 Individuals analyzing the data for other purposes must submit a separate data
 extract request directly via IPUMS CPS. Individuals are not to redistribute the
-data without permission. Contact <ipums@umn.edu> for redistribution requests. 
+data without permission. Contact ipums@umn.edu for redistribution requests. 
 
 
 ## Citing folktables
