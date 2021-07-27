@@ -174,9 +174,9 @@ Folktables provides the following pre-defined prediction tasks:
 Each of these tasks can be instantiated on different ACS PUMS data samples, as
 illustrated in the [quick start examples](#quick-start-examples). Further
 details about each task can also be found in `acs.py`, where they are defined.
-For example, the `ACSIncome` task is defined by a dictionary of the features
-that are included and any transformation applied to those features
-(`feature_transforms`), the target variable of interest (`target`), the
+For example, the `ACSIncome` task is defined by a list of the features
+that are included 
+(`features`), the target variable of interest (`target`), the
 transformation applied to that variable (`target_transform`), the group
 membership variable (`group`), and any preprocessing or postprocessing functions
 (`preprocess` and `postprocess`)  : 
