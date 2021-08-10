@@ -18,8 +18,8 @@ requests, please file a
 [Github issue](https://github.com/zykls/folktables/issues). 
 We welcome all kinds of issues, especially those related to correctness, documentation, performance, and new features.
 
-Please see [[Datasheet]](datasheet.md) for a datasheet ([Datasheets for datasets
-(Gebru et al.)](https://arxiv.org/abs/1803.09010)) for Folktables.
+Motivated by [Datasheets for datasets
+(Gebru et al.)](https://arxiv.org/abs/1803.09010), please see [[Datasheet]](datasheet.md) for the Folktables datasheet.
 
 ## Basic installation instructions
 1. (Optionally) create a virtual environment
