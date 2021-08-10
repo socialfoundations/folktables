@@ -1,12 +1,10 @@
-Datasheet {#sec:Datasheet}
+Datasheet
 =========
 
 This datasheet covers both the prediction tasks we introduce and the
 underlying US Census data sources. However, due to the extensive
 documentation available about the US Census data we often point to
-relevant available resources rather than recreating them here. For
-updates and changes to the datasheet, please refer
-to <https://github.com/zykls/folktables/blob/main/README.md>.
+relevant available resources rather than recreating them here. 
 
 Motivation
 ----------
