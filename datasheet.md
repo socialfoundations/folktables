@@ -58,16 +58,14 @@ Composition
     Our IPUMS Adult reconstruction contains 49,531 rows, each with 14
     attributes.  The following table described the sizes of our datasets derived
     from ACS.
-
-    \centering
-    ------------------- ------------ ------------
-    Task                  Features   Datapoints                   
-    ACSIncome                10      1,599,229
-    ACSPublicCoverage        19      1,127,446
-    ACSMobility              21      620,937
-    ACSEmployment            17      2,320,013
-    ACSTravelTime            16      1,428,642
-  ------------------- ------------ ------------
+ 
+    |Task | Features | Datapoints |
+    |-----|----------|------------|
+    | ACSIncome         | 10       | 1,599,229  |
+    | ACSPublicCoverage | 19       | 1,127,446  |
+    | ACSMobility       | 21       | 620,937    |
+    | ACSEmployment     | 17       | 2,320,013  |
+    | ACSTravelTime     | 16       | 1,428,642  |
 
 -   **Does the dataset contain all possible instances or is it a sample
     (not necessarily random) of instances from a larger set?** If the
@@ -80,7 +78,7 @@ Composition
 
     Both IPUMS Adult and our ACS datasets are samples of the US population.
     Please see Sections 2 and 3, and Appendices A and B of the [associated
-    paper](TODO: arxiv link) and the corresponding documentation provided by the
+    paper]() and the corresponding documentation provided by the
     US Census Bureau for complete details regarding the sampling distribution.
     Note that the per-instance weights have to be taken into account if the
     sample is meant to represent the US population.
@@ -91,7 +89,7 @@ Composition
 
     Each instance consists of features. IPUMS Adult uses the same
     features as the original UCI Adult dataset. Appendix B
-    of the [associated paper](TODO: arxiv link) and the corresponding
+    of the [associated paper]() and the corresponding
     documentation provided by the US Census Bureau describes each feature in our
     new datasets derived from ACS.
 
@@ -367,7 +365,7 @@ Preprocessing / cleaning / labeling
     For the new prediction tasks that we define, we further process the
     ACS data as documented at the folktables GitHub page,
     <https://github.com/zykls/folktables>. In most cases, this involves
-    mapping missing values (NaNs) to $-1$. We release code so that new
+    mapping missing values (NaNs) to -1. We release code so that new
     prediction tasks may be defined on the ACS data, with potentially
     different preprocessing. Each prediction task also defines a binary
     label by discretizing the target variable into two classes; this can
