@@ -261,11 +261,17 @@ data without permission. Contact ipums@umn.edu for redistribution requests.
 
 
 ## Citing folktables
-TODO!
-
+If you uses the Folktables datasets or the Adult Reconstruction, we encourage
+you to cite our paper introducing the datasets:
+```
+@article{ding2021retiring,
+  title={Retiring Adult: New Datasets For Fair Machine Learning},
+  author={Ding, Frances and Hardt, Moritz and Miller, John and Schmidt, Ludwig},
+  journal={arXiv preprint arXiv:ABC.123},
+  year={2021}
+}
+```
 If you make use of the Adult Reconstruction, please additionally cite [[3]](#3).
-
-
 
 ## References
 <a id="1">[1]</a> 
