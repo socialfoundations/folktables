@@ -44,11 +44,6 @@ class Problem(ABC):
 
     @property
     @abstractmethod
-    def feature_transforms(self):
-        pass
-
-    @property
-    @abstractmethod
     def target_transform(self):
         pass
 
@@ -57,7 +52,7 @@ class BasicProblem(Problem):
     """Basic prediction or regression problem."""
 
     def __init__(self,
-                 feature_transforms,
+                 features,
                  target,
                  target_transform=None,
                  group=None,
@@ -67,7 +62,7 @@ class BasicProblem(Problem):
         """Initialize BasicProblem.
 
         Args:
-            feature_transforms: dictionary mapping column name to transform
+            features: list of column names to use as features
             target: column name of target variable
             target_transform: feature transformation for target variable
             group: designated group membership feature
@@ -75,43 +70,13 @@ class BasicProblem(Problem):
             preprocess: function applied to initial data frame
             postprocess: function applied to final numpy data array
         """
-        self._feature_transforms = feature_transforms
+        self._features = features
         self._target = target
         self._target_transform = target_transform
         self._group = group
         self._group_transform = group_transform
         self._preprocess = preprocess
         self._postprocess = postprocess
-
-    def df_to_df(self, df):
-        """Return problem as data frame.
-        
-        Args:
-            DataFrame.
-        
-        Returns:
-            DataFrame."""
-        df = self._preprocess(df)
-
-        columns = {}
-        for feature, transform in self.feature_transforms.items():
-            if transform is None:
-                columns[feature] = np.nan_to_num(df[feature].to_numpy())
-            else:
-                columns[feature] = np.nan_to_num(transform(df[feature]))
-        
-        if self.target_transform is None:
-                columns[self.target] = np.nan_to_num(df[self.target].to_numpy())
-        else:
-                columns[self.target] = np.nan_to_num(self.target_transform(df[self.target]).to_numpy())
-        
-        if self._group:
-            columns[self._group] = np.nan_to_num(self.group_transform(df[self.group]).to_numpy())
-        else:
-            columns[self._group] = np.zeros(len(self.target))
-
-        return pd.DataFrame(columns)
-
 
     def df_to_numpy(self, df):
         """Return data frame as numpy array.
@@ -124,13 +89,8 @@ class BasicProblem(Problem):
 
         df = self._preprocess(df)
         res = []
-        
-        for feature, transform in self.feature_transforms.items():
-            if transform is None:
-                res.append(df[feature].to_numpy())
-            else:
-                res.append(transform(df[feature]))
-        
+        for feature in self.features:
+            res.append(df[feature].to_numpy())
         res_array = np.column_stack(res)
         
         if self.target_transform is None:
@@ -155,12 +115,8 @@ class BasicProblem(Problem):
     
     @property
     def features(self):
-        return self._feature_transforms.keys()
+        return self._features
     
-    @property
-    def feature_transforms(self):
-        return self._feature_transforms
-
     @property
     def group(self):
         return self._group

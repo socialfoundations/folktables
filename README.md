@@ -173,27 +173,35 @@ Folktables provides the following pre-defined prediction tasks:
 
 - **ACSTravelTime**: predict whether an individual has a commute to work that is longer than 20 minutes, after filtering the ACS PUMS data sample to only include individuals who are employed and above the age of 16. The threshold of 20 minutes was chosen as it is the US-wide median travel time to work  in the 2018 ACS PUMS data release.
 
-Each of these tasks can be instantiated on different ACS PUMS data samples, as illustrated in the [quick start examples](#quick-start-examples). Further details about each task can also be found in `acs.py`, where they are defined. For example, the `ACSIncome` task is defined by a dictionary of the features that are included and any transformation applied to those features (`feature_transforms`), the target variable of interest (`target`), the transformation applied to that variable (`target_transform`), the group membership variable (`group`), and any preprocessing or postprocessing functions (`preprocess` and `postprocess`)  : 
+Each of these tasks can be instantiated on different ACS PUMS data samples, as
+illustrated in the [quick start examples](#quick-start-examples). Further
+details about each task can also be found in `acs.py`, where they are defined.
+For example, the `ACSIncome` task is defined by a list of the features
+that are included 
+(`features`), the target variable of interest (`target`), the
+transformation applied to that variable (`target_transform`), the group
+membership variable (`group`), and any preprocessing or postprocessing functions
+(`preprocess` and `postprocess`)  : 
 
 ```py
 ACSIncome = folktables.BasicProblem(
-    feature_transforms={
-        'AGEP': None,
-        'COW': None,
-        'SCHL' : None,
-        'MAR' : None,
-        'OCCP' : None,
-        'POBP' : None,
-        'RELP' : None,
-        'WKHP' : None,
-        'SEX' : None,
-        'RAC1P' : None
-    },
+    features=[
+        'AGEP',
+        'COW',
+        'SCHL',
+        'MAR',
+        'OCCP',
+        'POBP',
+        'RELP',
+        'WKHP',
+        'SEX',
+        'RAC1P',
+    ],
     target='PINCP',
     target_transform=lambda x: x > 50000,    
     group='RAC1P',
     preprocess=adult_filter,
-    postprocess=preprocessing.scale
+    postprocess=lambda x: np.nan_to_num(x, -1),
 )
 ```
 
@@ -201,30 +209,38 @@ ACSIncome = folktables.BasicProblem(
 
 ### Creating a new prediction task
 Folktables also makes it seamless to construct new prediction tasks based on US
-Census data. For example, we may be interested in modifying the predefined `ACSIncome` task by 1) removing the age feature from the task, 2) lowering the income threshold that determines the binary labels to $25000, and 3) setting the group membership variable to `'SEX'` instead of `'RAC1P'`. We can define this new task `ACSIncomeNew` as follows:
+Census data. For example, we may be interested in modifying the predefined
+`ACSIncome` task by 1) removing the age feature from the task, 2) lowering the
+income threshold that determines the binary labels to $25000, and 3) setting the
+group membership variable to `'SEX'` instead of `'RAC1P'`. We can define this
+new task `ACSIncomeNew` as follows:
 
 ```py
 ACSIncomeNew = folktables.BasicProblem(
-    feature_transforms={
-        'COW': None,
-        'SCHL' : None,
-        'MAR' : None,
-        'OCCP' : None,
-        'POBP' : None,
-        'RELP' : None,
-        'WKHP' : None,
-        'SEX' : None,
-        'RAC1P' : None
-    },
+    features=[
+        'COW',
+        'SCHL',
+        'MAR',
+        'OCCP',
+        'POBP',
+        'RELP',
+        'WKHP',
+        'SEX',
+        'RAC1P',
+    ],
     target='PINCP',
     target_transform=lambda x: x > 25000,    
     group='SEX',
     preprocess=adult_filter,
-    postprocess=preprocessing.scale
+    postprocess=lambda x: np.nan_to_num(x, -1),
 )
 ```
 
-Every field defining the prediction task can be modified, and all variables in the ACS PUMS data release are valid to include as features or as the target. Please see the [ACS PUMS data dictionary](https://www.census.gov/programs-surveys/acs/microdata/documentation.html) for the full list of variables available. 
+Every field defining the prediction task can be modified, and all variables in
+the ACS PUMS data release are valid to include as features or as the target.
+Please see the [ACS PUMS data
+dictionary](https://www.census.gov/programs-surveys/acs/microdata/documentation.html)
+for the full list of variables available. 
 
 
 ## Scope and limitations
