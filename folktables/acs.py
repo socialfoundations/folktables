@@ -3,7 +3,6 @@ import os
 
 import numpy as np
 import pandas as pd
-from sklearn import preprocessing
 
 from . import folktables
 from .load_acs import load_acs
@@ -60,103 +59,100 @@ class ACSDataSource(folktables.DataSource):
         else:
             return data
 
-
 def adult_filter(data):
     """Mimic the filters in place for Adult data.
-    
-    Adult documentation notes: Extraction was done by Barry Becker from 
-    the 1994 Census database. A set of reasonably clean records was extracted 
+
+    Adult documentation notes: Extraction was done by Barry Becker from
+    the 1994 Census database. A set of reasonably clean records was extracted
     using the following conditions:
     ((AAGE>16) && (AGI>100) && (AFNLWGT>1)&& (HRSWK>0))
     """
     df = data
     df = df[df['AGEP'] > 16]
     df = df[df['PINCP'] > 100]
-    df = df[df['WKHP'] > 0]    
+    df = df[df['WKHP'] > 0]
     df = df[df['PWGTP'] >= 1]
     return df
 
-
 ACSIncome = folktables.BasicProblem(
-    feature_transforms={
-        'AGEP': None,
-        'COW': None,
-        'SCHL' : None,
-        'MAR' : None,
-        'OCCP' : None,
-        'POBP' : None,
-        'RELP' : None,
-        'WKHP' : None,
-        'SEX' : None,
-        'RAC1P' : None
-    },
+    features=[
+        'AGEP',
+        'COW',
+        'SCHL',
+        'MAR',
+        'OCCP',
+        'POBP',
+        'RELP',
+        'WKHP',
+        'SEX',
+        'RAC1P',
+    ],
     target='PINCP',
-    target_transform=lambda x: x > 50000,    
+    target_transform=lambda x: x > 50000,
     group='RAC1P',
     preprocess=adult_filter,
-    postprocess=preprocessing.scale
+    postprocess=lambda x: np.nan_to_num(x, -1),
 )
 
 ACSEmployment = folktables.BasicProblem(
-    feature_transforms={
-        'AGEP' : None,
-        'SCHL' : None,
-        'MAR' : None,
-        'RELP' : None,
-        'DIS' : None,
-        'ESP' : None,
-        'CIT' : None,
-        'MIG' : None,
-        'MIL' : None,
-        'ANC' : None,
-        'NATIVITY' : None,
-        'DEAR' : None,
-        'DEYE' : None,
-        'DREM' : None,
-        'SEX' : None,
-        'RAC1P' : None
-    },
+    features=[
+        'AGEP',
+        'SCHL',
+        'MAR',
+        'RELP',
+        'DIS',
+        'ESP',
+        'CIT',
+        'MIG',
+        'MIL',
+        'ANC',
+        'NATIVITY',
+        'DEAR',
+        'DEYE',
+        'DREM',
+        'SEX',
+        'RAC1P',
+    ],
     target='ESR',
     target_transform=lambda x: x == 1,
     group='RAC1P',
     preprocess=lambda x: x,
-    postprocess=lambda x: preprocessing.scale(np.nan_to_num(x, -1))
+    postprocess=lambda x: np.nan_to_num(x, -1),
 )
 
-
 ACSHealthInsurance = folktables.BasicProblem(
-    feature_transforms={
-        'AGEP' : None,
-        'SCHL' : None,
-        'MAR' : None,
-        'SEX' : None,
-        'DIS' : None,
-        'ESP' : None,
-        'CIT' : None,
-        'MIG' : None,
-        'MIL' : None,
-        'ANC' : None,
-        'NATIVITY' : None,
-        'DEAR' : None,
-        'DEYE' : None,
-        'DREM' : None,
-        'RACAIAN' : None,
-        'RACASN' : None,
-        'RACBLK' : None,
-        'RACNH' : None,
-        'RACPI' : None,
-        'RACSOR' : None,
-        'RACWHT' : None,
-        'PINCP': None,
-        'ESR': None,
-        'ST': None,
-        'FER': None
-    },
+    features=[
+        'AGEP',
+        'SCHL',
+        'MAR',
+        'SEX',
+        'DIS',
+        'ESP',
+        'CIT',
+        'MIG',
+        'MIL',
+        'ANC',
+        'NATIVITY',
+        'DEAR',
+        'DEYE',
+        'DREM',
+        'RACAIAN',
+        'RACASN',
+        'RACBLK',
+        'RACNH',
+        'RACPI',
+        'RACSOR',
+        'RACWHT',
+        'PINCP',
+        'ESR',
+        'ST',
+        'FER',
+    ],
     target='HINS2',
     target_transform=lambda x: x == 1,
     group='RAC1P',
     preprocess=lambda x: x,
-    postprocess=lambda x: preprocessing.scale(np.nan_to_num(x, -1))
+    postprocess=lambda x: np.nan_to_num(x, -1),
 )
 
 def public_coverage_filter(data):
@@ -169,32 +165,32 @@ def public_coverage_filter(data):
     return df
 
 ACSPublicCoverage = folktables.BasicProblem(
-    feature_transforms={
-        'AGEP' : None,
-        'SCHL' : None,
-        'MAR' : None,
-        'SEX' : None,
-        'DIS' : None,
-        'ESP' : None,
-        'CIT' : None,
-        'MIG' : None,
-        'MIL' : None,
-        'ANC' : None,
-        'NATIVITY' : None,
-        'DEAR' : None,
-        'DEYE' : None,
-        'DREM' : None,
-        'PINCP': None,
-        'ESR': None,
-        'ST': None,
-        'FER': None,
-        'RAC1P': None
-    },
+    features=[
+        'AGEP',
+        'SCHL',
+        'MAR',
+        'SEX',
+        'DIS',
+        'ESP',
+        'CIT',
+        'MIG',
+        'MIL',
+        'ANC',
+        'NATIVITY',
+        'DEAR',
+        'DEYE',
+        'DREM',
+        'PINCP',
+        'ESR',
+        'ST',
+        'FER',
+        'RAC1P',
+    ],
     target='PUBCOV',
     target_transform=lambda x: x == 1,
     group='RAC1P',
     preprocess=public_coverage_filter,
-    postprocess=lambda x: preprocessing.scale(np.nan_to_num(x, -1))
+    postprocess=lambda x: np.nan_to_num(x, -1),
 )
 
 def travel_time_filter(data):
@@ -208,60 +204,60 @@ def travel_time_filter(data):
     return df
 
 ACSTravelTime = folktables.BasicProblem(
-    feature_transforms={
-        'AGEP': None,
-        'SCHL': None,
-        'MAR': None,
-        'SEX': None,
-        'DIS': None,
-        'ESP': None,
-        'MIG': None,
-        'RELP': None,
-        'RAC1P': None,
-        'PUMA': None,
-        'ST': None,
-        'CIT': None,
-        'OCCP': None,
-        'JWTR': None,
-        'POWPUMA': None,
-        'POVPIP': None
-    },
+    features=[
+        'AGEP',
+        'SCHL',
+        'MAR',
+        'SEX',
+        'DIS',
+        'ESP',
+        'MIG',
+        'RELP',
+        'RAC1P',
+        'PUMA',
+        'ST',
+        'CIT',
+        'OCCP',
+        'JWTR',
+        'POWPUMA',
+        'POVPIP',
+    ],
     target="JWMNP",
     target_transform=lambda x: x > 20,
     group='RAC1P',
     preprocess=travel_time_filter,
-    postprocess=lambda x: preprocessing.scale(np.nan_to_num(x, -1))
+    postprocess=lambda x: np.nan_to_num(x, -1),
 )
 
 ACSMobility = folktables.BasicProblem(
-    feature_transforms={
-        'AGEP': None,
-        'SCHL': None,
-        'MAR': None,
-        'SEX': None,
-        'DIS': None,
-        'ESP': None,
-        'CIT': None,
-        'MIL': None,
-        'ANC': None,
-        'NATIVITY':None,
-        'RELP': None,
-        'DEAR': None,
-        'DEYE': None,
-        'DREM': None,
-        'RAC1P': None,
-        'GCL': None,
-        'COW': None,
-        'ESR': None,
-        'WKHP': None,
-        'JWMNP': None,
-        'PINCP': None
-    },
+    feature_transforms=[
+        'AGEP',
+        'SCHL',
+        'MAR',
+        'SEX',
+        'DIS',
+        'ESP',
+        'CIT',
+        'MIL',
+        'ANC',
+        'NATIVITY',
+        'RELP',
+        'DEAR',
+        'DEYE',
+        'DREM',
+        'RAC1P',
+        'GCL',
+        'COW',
+        'ESR',
+        'WKHP',
+        'JWMNP',
+        'PINCP',
+    ],
     target="MIG",
     target_transform=lambda x: x == 1,
     group='RAC1P',
-    preprocess=lambda x : x.drop(x.loc[(x['AGEP'] <= 18) | (x['AGEP'] >= 35)].index),
-    postprocess=lambda x: preprocessing.scale(np.nan_to_num(x, -1))
+    preprocess=lambda x: x.drop(x.loc[(x['AGEP'] <= 18) | (x['AGEP'] >= 35)].index),
+    postprocess=lambda x: np.nan_to_num(x, -1),
 )
 
 def employment_filter(data):
@@ -275,58 +271,58 @@ def employment_filter(data):
     return df
 
 ACSEmploymentFiltered = folktables.BasicProblem(
-    feature_transforms={
-        'AGEP': None,
-        'SCHL': None,
-        'MAR': None,
-        'SEX': None,
-        'DIS': None,
-        'ESP': None,
-        'MIG': None,
-        'CIT': None,
-        'MIL': None,
-        'ANC': None,
-        'NATIVITY':None,
-        'RELP': None,
-        'DEAR': None,
-        'DEYE': None,
-        'DREM': None,
-        'RAC1P': None,
-        'GCL': None,
-    },
+    features=[
+        'AGEP',
+        'SCHL',
+        'MAR',
+        'SEX',
+        'DIS',
+        'ESP',
+        'MIG',
+        'CIT',
+        'MIL',
+        'ANC',
+        'NATIVITY',
+        'RELP',
+        'DEAR',
+        'DEYE',
+        'DREM',
+        'RAC1P',
+        'GCL',
+    ],
     target="ESR",
     target_transform=lambda x: x == 1,
     group='RAC1P',
-    preprocess= employment_filter,
-    postprocess=lambda x: preprocessing.scale(np.nan_to_num(x, -1))
+    preprocess=employment_filter,
+    postprocess=lambda x: np.nan_to_num(x, -1),
 )
 
 ACSIncomePovertyRatio = folktables.BasicProblem(
-    feature_transforms={
-        'AGEP': None,
-        'SCHL': None,
-        'MAR': None,
-        'SEX': None,
-        'DIS': None,
-        'ESP': None,
-        'MIG': None,
-        'CIT': None,
-        'MIL': None,
-        'ANC': None,
-        'NATIVITY': None,
-        'RELP': None,
-        'DEAR': None,
-        'DEYE': None,
-        'DREM': None,
-        'RAC1P': None,
-        'GCL': None,
-        'ESR': None,
-        'OCCP': None,
-        'WKHP': None
-    },
+    features=[
+        'AGEP',
+        'SCHL',
+        'MAR',
+        'SEX',
+        'DIS',
+        'ESP',
+        'MIG',
+        'CIT',
+        'MIL',
+        'ANC',
+        'NATIVITY',
+        'RELP',
+        'DEAR',
+        'DEYE',
+        'DREM',
+        'RAC1P',
+        'GCL',
+        'ESR',
+        'OCCP',
+        'WKHP',
+    ],
     target='POVPIP',
     target_transform=lambda x: x < 250,
     group='RAC1P',
     preprocess=lambda x: x,
-    postprocess=lambda x: preprocessing.scale(np.nan_to_num(x, -1))
+    postprocess=lambda x: np.nan_to_num(x, -1),
 )
