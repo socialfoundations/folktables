@@ -55,12 +55,19 @@ Composition
 -   **How many instances are there in total (of each type, if
     appropriate)?**
 
-    Our IPUMS Adult reconstruction contains 49,531 rows (see Section
-    [\[sec:reconstruction\]](#sec:reconstruction){reference-type="ref"
-    reference="sec:reconstruction"}). Table
-    [\[table:tasks\]](#table:tasks){reference-type="ref"
-    reference="table:tasks"} contains the sizes of our datasets derived
+    Our IPUMS Adult reconstruction contains 49,531 rows, each with 14
+    attributes.  The following table described the sizes of our datasets derived
     from ACS.
+
+    \centering
+    ------------------- ------------ ------------
+    Task                  Features   Datapoints                   
+    ACSIncome                10      1,599,229
+    ACSPublicCoverage        19      1,127,446
+    ACSMobility              21      620,937
+    ACSEmployment            17      2,320,013
+    ACSTravelTime            16      1,428,642
+  ------------------- ------------ ------------
 
 -   **Does the dataset contain all possible instances or is it a sample
     (not necessarily random) of instances from a larger set?** If the
@@ -71,35 +78,30 @@ Composition
     not (e.g., to cover a more diverse range of instances, because
     instances were withheld or unavailable)
 
-    Both IPUMS Adult and our ACS datasets are samples of the US
-    population. Please see Sections
-    [\[sec:reconstruction\]](#sec:reconstruction){reference-type="ref"
-    reference="sec:reconstruction"} &
-    [\[sec:new\_data\]](#sec:new_data){reference-type="ref"
-    reference="sec:new_data"} and the corresponding documentation
-    provided by the US Census Bureau. Note that the per-instance weights
-    have to be taken into account if the sample is meant to represent
-    the US population.
+    Both IPUMS Adult and our ACS datasets are samples of the US population.
+    Please see Sections 2 and 3, and Appendices A and B of the [associated
+    paper](TODO: arxiv link) and the corresponding documentation provided by the
+    US Census Bureau for complete details regarding the sampling distribution.
+    Note that the per-instance weights have to be taken into account if the
+    sample is meant to represent the US population.
 
 -   **What data does each instance consist of?** "Raw" data (e.g.,
     unprocessed text or images) or features? In either case, please
     provide a description.
 
     Each instance consists of features. IPUMS Adult uses the same
-    features as the original UCI Adult dataset. Appendix
-    [\[appendix:new-tasks\]](#appendix:new-tasks){reference-type="ref"
-    reference="appendix:new-tasks"} describes each feature in our new
-    datasets derived from ACS.
+    features as the original UCI Adult dataset. Appendix B
+    of the [associated paper](TODO: arxiv link) and the corresponding
+    documentation provided by the US Census Bureau describes each feature in our
+    new datasets derived from ACS.
 
 -   **Is there a label or target associated with each instance?** If so,
     please provide a description.
 
     Similar to UCI Adult, our IPUMS Adult reconstruction uses the income
     as label (where the continuous values as opposed to only the
-    binarized values are now available). Appendix
-    [\[appendix:new-tasks\]](#appendix:new-tasks){reference-type="ref"
-    reference="appendix:new-tasks"} describes the labels in our new
-    datasets derived from ACS.
+    binarized values are now available). Appendix B in the [associated paper]()
+    describes the labels in our new datasets derived from ACS.
 
 -   **Is any information missing from individual instances?** If so,
     please provide a description, explaining why this information is
@@ -131,10 +133,9 @@ Composition
     dataset?** If so, please provide a description.
 
     Our IPUMS Adult reconstruction contains slightly more rows than the
-    original UCI Adult, see Section
-    [\[sec:reconstruction\]](#sec:reconstruction){reference-type="ref"
-    reference="sec:reconstruction"}. Beyond IPUMS Adult, we refer to the
-    documentation of CPS and ACS provided by the US Census Bureau.
+    original UCI Adult, see Section 2 of the [associated paper](TODO: Link).
+    Beyond IPUMS Adult, we refer to the documentation of CPS and ACS provided by
+    the US Census Bureau.
 
 -   **Is the dataset self-contained, or does it link to or otherwise
     rely on external resources (e.g., websites, tweets, other
