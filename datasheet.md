@@ -88,18 +88,19 @@ Composition
     provide a description.
 
     Each instance consists of features. IPUMS Adult uses the same
-    features as the original UCI Adult dataset. Appendix B
-    of the [associated paper]() and the corresponding
-    documentation provided by the US Census Bureau describes each feature in our
-    new datasets derived from ACS.
+    features as the original UCI Adult dataset. Appendix B of the [associated
+    paper](https://arxiv.org/abs/2108.04884) and the corresponding documentation
+    provided by the US Census Bureau describes each feature in our new datasets
+    derived from ACS.
 
 -   **Is there a label or target associated with each instance?** If so,
     please provide a description.
 
     Similar to UCI Adult, our IPUMS Adult reconstruction uses the income
     as label (where the continuous values as opposed to only the
-    binarized values are now available). Appendix B in the [associated paper]()
-    describes the labels in our new datasets derived from ACS.
+    binarized values are now available). Appendix B in the [associated
+    paper](https://arxiv.org/abs/2108.04884) describes the labels in our new
+    datasets derived from ACS.
 
 -   **Is any information missing from individual instances?** If so,
     please provide a description, explaining why this information is
@@ -131,9 +132,9 @@ Composition
     dataset?** If so, please provide a description.
 
     Our IPUMS Adult reconstruction contains slightly more rows than the
-    original UCI Adult, see Section 2 of the [associated paper](TODO: Link).
-    Beyond IPUMS Adult, we refer to the documentation of CPS and ACS provided by
-    the US Census Bureau.
+    original UCI Adult, see Section 2 of the [associated
+    paper](https://arxiv.org/abs/2108.04884).  Beyond IPUMS Adult, we refer to
+    the documentation of CPS and ACS provided by the US Census Bureau.
 
 -   **Is the dataset self-contained, or does it link to or otherwise
     rely on external resources (e.g., websites, tweets, other

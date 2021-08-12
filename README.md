@@ -285,7 +285,7 @@ you to cite our paper introducing the datasets:
 @article{ding2021retiring,
   title={Retiring Adult: New Datasets For Fair Machine Learning},
   author={Ding, Frances and Hardt, Moritz and Miller, John and Schmidt, Ludwig},
-  journal={arXiv preprint arXiv:ABC.123},
+  journal={arXiv preprint arXiv:2108.04884},
   year={2021}
 }
 ```
