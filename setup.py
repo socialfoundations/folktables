@@ -10,6 +10,7 @@ setup(
     install_requires=[
         "numpy",
         "pandas",
+        "requests",
         "sklearn",
     ],
     classifiers=[
