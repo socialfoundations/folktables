@@ -68,12 +68,14 @@ metric.
 import numpy as np
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
+from sklearn.pipeline import make_pipeline
+from sklearn.preprocessing import StandardScaler
 
 X_train, X_test, y_train, y_test, group_train, group_test = train_test_split(
     features, label, group, test_size=0.2, random_state=0)
 
 ###### Your favorite learning algorithm here #####
-model = LogisticRegression()
+model = make_pipeline(StandardScaler(), LogisticRegression())
 model.fit(X_train, y_train)
 
 yhat = model.predict(X_test)
@@ -97,7 +99,7 @@ features, label, group = ACSEmployment.df_to_numpy(acs_tx)
 X_train, X_test, y_train, y_test, group_train, group_test = train_test_split(
     tx_features, tx_label, tx_group, test_size=0.2, random_state=0)
 
-model = LogisticRegression()
+model = make_pipeline(StandardScaler(), LogisticRegression())
 model.fit(X_train, y_train)
 
 yhat = model.predict(X_test)
@@ -144,6 +146,7 @@ evaluate how it's equality of opportunity violation or accuracy varies over time
 from folktables import ACSDataSource, ACSPublicCoverage
 from sklearn.linear_model import LogisticRegression
 
+# Download 2014 data
 data_source = ACSDataSource(survey_year=2014, horizon='1-Year', survey='person')
 acs_data14 = data_source.get_data(states=["CA"], download=True)
 features14, labels14, _ = ACSPublicCoverage.df_to_numpy(acs_data14)

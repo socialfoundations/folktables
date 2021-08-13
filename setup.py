@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="folktables",
-    version="0.0.1",
+    version="0.0.11",
     author="John Miller, Frances Ding, Ludwig Schmidt, Moritz Hardt",
     author_email="miller_john@berkeley.edu",
     description="New machine learning benchmarks from tabular datasets.",
