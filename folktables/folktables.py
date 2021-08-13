@@ -22,11 +22,6 @@ class Problem(ABC):
     """Abstract class for specifying learning problem."""
 
     @abstractmethod
-    def df_to_df(self, df):
-        """Return learning problem as dataframe."""
-        pass
-
-    @abstractmethod
     def df_to_numpy(self, df):
         """Return learning problem as numpy array."""
         pass

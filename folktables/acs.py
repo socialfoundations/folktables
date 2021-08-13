@@ -230,7 +230,7 @@ ACSTravelTime = folktables.BasicProblem(
 )
 
 ACSMobility = folktables.BasicProblem(
-    feature_transforms=[
+    features=[
         'AGEP',
         'SCHL',
         'MAR',
