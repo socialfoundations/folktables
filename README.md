@@ -84,7 +84,7 @@ white_tpr = np.mean(yhat[(y_test == 1) & (group_test == 1)])
 black_tpr = np.mean(yhat[(y_test == 1) & (group_test == 2)])
 
 # Equality of opportunity violation: 0.0455
-white_trp - black_trp
+white_tpr - black_tpr
 ```
 The ACS data source contains data for all fifty states, each of which has a
 slightly different distribution of features and response. This increases the
