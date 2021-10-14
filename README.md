@@ -6,6 +6,8 @@
 
 Why the name? Folktables is a neologism describing tabular data about individuals. It emphasizes that data has the power to create and shape narratives about populations and challenges us to think carefully about the data we collect and use.
 
+For more information about these datasets, including the motivations behind their curation and some examples of empirical findings, please see [our paper](https://arxiv.org/abs/2108.04884) and/or this [video presentation](https://youtu.be/cP4BCFMHg98?t=1841) (talk begins around the 30 minute mark).
+
 
 ## Table of Contents
 1. [Basic installation instructions](#basic-installation-instructions)
