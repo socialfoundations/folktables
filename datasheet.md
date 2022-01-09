@@ -61,11 +61,11 @@ Composition
  
     |Task | Features | Datapoints |
     |-----|----------|------------|
-    | ACSIncome         | 10       | 1,599,229  |
-    | ACSPublicCoverage | 19       | 1,127,446  |
+    | ACSIncome         | 10       | 1,664,500  |
+    | ACSPublicCoverage | 19       | 1,138,289  |
     | ACSMobility       | 21       | 620,937    |
-    | ACSEmployment     | 17       | 2,320,013  |
-    | ACSTravelTime     | 16       | 1,428,642  |
+    | ACSEmployment     | 17       | 3,236,107  |
+    | ACSTravelTime     | 16       | 1,466,648  |
 
 -   **Does the dataset contain all possible instances or is it a sample
     (not necessarily random) of instances from a larger set?** If the
