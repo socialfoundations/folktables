@@ -1,3 +1,9 @@
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?color=g&style=plastic)](https://opensource.org/licenses/MIT)
+[![pypy: MIT](https://static.pepy.tech/personalized-badge/folktables?period=total&units=international_system&left_color=black&right_color=brightgreen&left_text=Downloads)](https://pepy.tech/project/folktables)
+[![pypy: v](https://img.shields.io/pypi/v/folktables.svg)](https://pypi.python.org/pypi/folktables)
+
+
 <p align="center">
 <img src="assets/logo.jpg" height="400" width="600">
 </p>
