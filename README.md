@@ -296,9 +296,10 @@ If you uses the Folktables datasets or the Adult Reconstruction, we encourage
 you to cite our paper introducing the datasets:
 ```
 @article{ding2021retiring,
-  title={Retiring Adult: New Datasets For Fair Machine Learning},
+  title={Retiring Adult: New Datasets for Fair Machine Learning},
   author={Ding, Frances and Hardt, Moritz and Miller, John and Schmidt, Ludwig},
-  journal={arXiv preprint arXiv:2108.04884},
+  journal={Advances in Neural Information Processing Systems},
+  volume={34},
   year={2021}
 }
 ```
