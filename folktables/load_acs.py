@@ -70,7 +70,8 @@ def initialize_and_download(datadir, state, year, horizon, survey, download=Fals
     # Download and extract file
     base_url= f'https://www2.census.gov/programs-surveys/acs/data/pums/{year}/{horizon}'
     remote_fname = f'csv_{survey_code}{state.lower()}.zip'
-    url = os.path.join(base_url, remote_fname)
+    url = os.path.join(base_url, remote_fname).replace('\\', '/')  # Transform Windows path into valid url
+
     try:
         download_and_extract(url, datadir, remote_fname, file_name, delete_download=True)
     except Exception as e:
