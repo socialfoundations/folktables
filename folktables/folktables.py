@@ -123,7 +123,7 @@ class BasicProblem(Problem):
             group = pd.DataFrame(0, index=np.arange(len(target)), columns=["group"])
 
         target = pd.DataFrame(target).reset_index(drop=True)
-        group.reset_index(drop=True, inplace=True)
+        group = pd.DataFrame(group).reset_index(drop=True)
 
         variables = pd.DataFrame(self._postprocess(variables.to_numpy()), columns=variables.columns)
 
