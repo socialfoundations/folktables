@@ -110,22 +110,22 @@ class BasicProblem(Problem):
             pandas.DataFrame."""
         
         df = self._preprocess(df)
+
         variables = df[self.features]
+        variables = pd.DataFrame(self._postprocess(variables.to_numpy()), columns=variables.columns)
 
         if self.target_transform is None:
             target = df[self.target]
         else:
             target = self.target_transform(df[self.target])
 
+        target = pd.DataFrame(target).reset_index(drop=True)
+
         if self._group:
             group = self.group_transform(df[self.group])
+            group = pd.DataFrame(group).reset_index(drop=True)
         else:
             group = pd.DataFrame(0, index=np.arange(len(target)), columns=["group"])
-
-        target = pd.DataFrame(target).reset_index(drop=True)
-        group = pd.DataFrame(group).reset_index(drop=True)
-
-        variables = pd.DataFrame(self._postprocess(variables.to_numpy()), columns=variables.columns)
 
         return variables, target, group
 
