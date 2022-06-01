@@ -100,11 +100,14 @@ class BasicProblem(Problem):
 
         return self._postprocess(res_array), target, group
 
-    def df_to_pandas(self, df):
-        """Filters and processes a DataFrame received from ```ACSDataSource'''.
+    def df_to_pandas(self, df, categories=None, dummies=False):
+        """Filters and processes a DataFrame (received from ```ACSDataSource''').
         
         Args:
-            pandas.DataFrame.
+            df: pd.DataFrame (received from ```ACSDataSource''')
+            categories: nested dict with columns of categorical features and their
+                corresponding transformations (see acs_categories.py for examples).
+            dummies: bool to indicate the creation of dummy variables for categorical features
         
         Returns:
             pandas.DataFrame."""
@@ -112,7 +115,15 @@ class BasicProblem(Problem):
         df = self._preprocess(df)
 
         variables = df[self.features]
-        variables = pd.DataFrame(self._postprocess(variables.to_numpy()), columns=variables.columns)
+
+        if categories:
+            variables = variables.replace(categories)
+        
+        if dummies:
+            variables = pd.get_dummies(variables)
+
+        variables = pd.DataFrame(self._postprocess(variables.to_numpy()),
+                                 columns=variables.columns)
 
         if self.target_transform is None:
             target = df[self.target]
