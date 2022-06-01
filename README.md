@@ -185,7 +185,7 @@ from folktables import ACSIncome_categories
 data_source = ACSDataSource(survey_year='2018', horizon='1-Year', survey='person')
 ca_data = data_source.get_data(states=["CA"], download=True)
 
-ca_features, ca_labels, _ = ACSIncome.df_to_numpy(ca_data, categories=ACSIncome_categories, dummies=True)
+ca_features, ca_labels, _ = ACSIncome.df_to_pandas(ca_data, categories=ACSIncome_categories, dummies=True)
 
 ca_features.to_csv('ca_features.csv', index=False)
 ca_labels.to_csv('ca_labels.csv', index=False)
