@@ -100,6 +100,35 @@ class BasicProblem(Problem):
 
         return self._postprocess(res_array), target, group
 
+    def df_to_pandas(self, df):
+        """Filters and processes a DataFrame received from ```ACSDataSource'''.
+        
+        Args:
+            pandas.DataFrame.
+        
+        Returns:
+            pandas.DataFrame."""
+        
+        df = self._preprocess(df)
+        variables = df[self.features]
+
+        if self.target_transform is None:
+            target = df[self.target]
+        else:
+            target = self.target_transform(df[self.target])
+
+        if self._group:
+            group = self.group_transform(df[self.group])
+        else:
+            group = pd.DataFrame(0, index=np.arange(len(target)), columns=["group"])
+
+        target = pd.DataFrame(target).reset_index(drop=True)
+        group.reset_index(drop=True, inplace=True)
+
+        variables = pd.DataFrame(self._postprocess(variables.to_numpy()), columns=variables.columns)
+
+        return variables, target, group
+
     @property 
     def target(self):
         return self._target
