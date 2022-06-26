@@ -70,7 +70,7 @@ def initialize_and_download(datadir, state, year, horizon, survey, download=Fals
     # Download and extract file
     base_url= f'https://www2.census.gov/programs-surveys/acs/data/pums/{year}/{horizon}'
     remote_fname = f'csv_{survey_code}{state.lower()}.zip'
-    url = os.path.join(base_url, remote_fname)
+    url = f'{base_url}/{remote_fname}'
     try:
         download_and_extract(url, datadir, remote_fname, file_name, delete_download=True)
     except Exception as e:
@@ -143,3 +143,32 @@ def load_acs(root_dir, states=None, year=2018, horizon='1-Year',
     dtypes = {'PINCP' : np.float64, 'RT' : str, 'SOCP' : str, 'SERIALNO' : str, 'NAICSP' : str}
                     
     return pd.read_csv(sample, dtype=dtypes)
+
+
+def load_definitions(root_dir, year=2018, horizon='1-Year', download=False):
+    """
+    Loads the data attribute definition file.
+
+    File only available for year >= 2017.
+    """
+    assert horizon in ['1-Year', '5-Year']
+    assert int(year) >= 2017
+
+    base_datadir = os.path.join(root_dir, str(year), horizon)
+    file_path = os.path.join(base_datadir, 'definition.csv')
+    if os.path.exists(file_path):
+        return pd.read_csv(file_path, sep=',', header=None, names=list(range(7)))
+    if not download:
+        raise FileNotFoundError(
+            f'Could not find {year} {horizon} attribute definition. Call get_definitions with download=True to download the definitions.')
+
+    # download definition first
+    print('Downloading the attribute definition file...')
+    year_string = year if horizon == '1-Year' else f'{year - 4}-{year}'
+    url = f'https://www2.census.gov/programs-surveys/acs/tech_docs/pums/data_dict/PUMS_Data_Dictionary_{year_string}.csv'
+
+    response = requests.get(url)
+    with open(file_path, 'wb') as handle:
+        handle.write(response.content)
+
+    return pd.read_csv(file_path, sep=',', header=None, names=list(range(7)))
