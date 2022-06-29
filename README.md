@@ -292,7 +292,7 @@ data without permission. Contact ipums@umn.edu for redistribution requests.
 
 
 ## Citing folktables
-If you uses the Folktables datasets or the Adult Reconstruction, we encourage
+If you use the Folktables datasets or the Adult reconstruction, we encourage
 you to cite our paper introducing the datasets:
 ```
 @article{ding2021retiring,
