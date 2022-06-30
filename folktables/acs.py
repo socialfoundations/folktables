@@ -95,35 +95,32 @@ ACSIncome = folktables.BasicProblem(
 )
 
 def adult_filter2(data):
-    ''' to make a data set similar to Adult data set, filter rows such that 
-        df['AGEP'] > 16 && df['WKHP'] > 0, 
-        'PWGTP' should not be used for model training, its possibly for data sampling
-        'ST' (state) column is included to denote the geographical region of the data records.
-        'PUMA' column is only for fine-grained geographical region, to be combined with 'ST' for denoting unique regions with at least 100,000 people
+    """ To make a data set similar to Adult data set, filter rows such that:
+        ((AGEP>16) && (PINCP>100) && (WKHP>0)  && (PWGTP>=1))
+        Following columns are not to be used for model training:
+        - 'PWGTP' is possibly for data sampling.
+        - 'ST' (state) is included to denote the geographical region of the data records.
+        - 'PUMA' is only for fine-grained geographical region, to be combined with 'ST' for denoting unique regions with at least 100,000 people.
         All column values start at 0 and have no unused values (e.g., no cases where a column values are of set (0,1,3))
-    '''
+    """
     df = data
     df = df[df['AGEP'] > 16]
     df = df[df['PINCP'] > 100]
     df = df[df['WKHP'] > 0]
     df = df[df['PWGTP'] >= 1]
-
-    #(add comment)
+    # Binary attributes denoting cognitive, ambulatory, hearing and vision disabilities respectively.
     for col in ['DREM', 'DPHY', 'DEAR', 'DEYE']:
         df.loc[df[col] == 2,col] = 0
-    
-    #make sure values start at 0
+    # Make sure values start at 0.
     for col in ['SEX', 'COW', 'SCHL', 'MAR', 'RAC1P', 'WAOB']:
         df[col] -= 1
-    
-    # combining Alaskan Native and American Indian, and their combinations into one class
+    # Combining Alaskan Native and American Indian, and their combinations into one class.
     df.loc[df['RAC1P'] == 3,'RAC1P'] = 2
     df.loc[df['RAC1P'] == 4, 'RAC1P'] = 2
-    # readjusting the number of classes
+    # Readjusting the number of classes
     for i in range(5, 9):
         df.loc[df['RAC1P'] == i, 'RAC1P'] = i - 2
-    
-    #Remove unused keys for ST attribute (e.g. there is no state for value 3). Make state values into values starting with 0 and with no gaps.
+    # Remove unused keys for ST attribute (e.g. there is no state with value 3). The values should start with 0 and have no gaps.
     unique_st = np.sort(df['ST'].unique())
     for old_val,new_val in zip(unique_st,list(range(len(unique_st)))):
         df.loc[df['ST']==old_val, 'ST'] = new_val
