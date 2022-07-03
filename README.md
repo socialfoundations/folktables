@@ -173,23 +173,20 @@ for year in [2015, 2016, 2017, 2018]:
     accuracies.append(model.score(features, labels))
 ```
 
-### Extract filtered and processed data in CSV with pandas
-Filtered and processed data can be easily extracted in CSV format from a pandas dataframe.
-The ```categories``` and ```dummies``` arguments in the ```df_to_pandas``` method can be used
-for the processing of categorical features. Category templates, such as ```ACSIncome_categories```,
-are available for each predefined task and can be easily customized.
+## Extract data in CSV with pandas
+The data can be easily extracted in CSV format from a pandas dataframe.
 ```py
 from folktables import ACSDataSource, ACSIncome
-from folktables import ACSIncome_categories
 
 data_source = ACSDataSource(survey_year='2018', horizon='1-Year', survey='person')
 ca_data = data_source.get_data(states=["CA"], download=True)
 
-ca_features, ca_labels, _ = ACSIncome.df_to_pandas(ca_data, categories=ACSIncome_categories, dummies=True)
+ca_features, ca_labels, _ = ACSIncome.df_to_pandas(ca_data)
 
 ca_features.to_csv('ca_features.csv', index=False)
 ca_labels.to_csv('ca_labels.csv', index=False)
 ```
+Take a look at the [examples](folktables/tree/master/examples) for encoding the categorical features with the ```df_to_pandas``` method.
 
 ## Prediction tasks in folktables
 Folktables provides the following pre-defined prediction tasks:

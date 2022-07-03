@@ -105,9 +105,10 @@ class BasicProblem(Problem):
         
         Args:
             df: pd.DataFrame (received from ```ACSDataSource''')
-            categories: nested dict with columns of categorical features and their
-                corresponding transformations (see acs_categories.py for examples).
-            dummies: bool to indicate the creation of dummy variables for categorical features
+            categories: nested dict with columns of categorical features
+                and their corresponding encodings (see examples folder)
+            dummies: bool to indicate the creation of dummy variables for
+                categorical features (see examples folder)
         
         Returns:
             pandas.DataFrame."""
