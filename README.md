@@ -186,7 +186,7 @@ ca_features, ca_labels, _ = ACSIncome.df_to_pandas(ca_data)
 ca_features.to_csv('ca_features.csv', index=False)
 ca_labels.to_csv('ca_labels.csv', index=False)
 ```
-Take a look at the [examples](folktables/tree/master/examples) for encoding the categorical features with the ```df_to_pandas``` method.
+Take a look at the [examples](examples) for encoding the categorical features with the ```df_to_pandas``` method.
 
 ## Prediction tasks in folktables
 Folktables provides the following pre-defined prediction tasks:
