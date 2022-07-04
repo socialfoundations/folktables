@@ -173,6 +173,21 @@ for year in [2015, 2016, 2017, 2018]:
     accuracies.append(model.score(features, labels))
 ```
 
+## Extract data in CSV with pandas
+The data can be easily extracted in CSV format from a pandas dataframe.
+```py
+from folktables import ACSDataSource, ACSIncome
+
+data_source = ACSDataSource(survey_year='2018', horizon='1-Year', survey='person')
+ca_data = data_source.get_data(states=["CA"], download=True)
+
+ca_features, ca_labels, _ = ACSIncome.df_to_pandas(ca_data)
+
+ca_features.to_csv('ca_features.csv', index=False)
+ca_labels.to_csv('ca_labels.csv', index=False)
+```
+Take a look at the [examples](examples) for encoding the categorical features with the ```df_to_pandas``` method.
+
 ## Prediction tasks in folktables
 Folktables provides the following pre-defined prediction tasks:
 

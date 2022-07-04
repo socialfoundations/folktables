@@ -100,6 +100,47 @@ class BasicProblem(Problem):
 
         return self._postprocess(res_array), target, group
 
+    def df_to_pandas(self, df, categories=None, dummies=False):
+        """Filters and processes a DataFrame (received from ```ACSDataSource''').
+        
+        Args:
+            df: pd.DataFrame (received from ```ACSDataSource''')
+            categories: nested dict with columns of categorical features
+                and their corresponding encodings (see examples folder)
+            dummies: bool to indicate the creation of dummy variables for
+                categorical features (see examples folder)
+        
+        Returns:
+            pandas.DataFrame."""
+        
+        df = self._preprocess(df)
+
+        variables = df[self.features]
+
+        if categories:
+            variables = variables.replace(categories)
+        
+        if dummies:
+            variables = pd.get_dummies(variables)
+
+        variables = pd.DataFrame(self._postprocess(variables.to_numpy()),
+                                 columns=variables.columns)
+
+        if self.target_transform is None:
+            target = df[self.target]
+        else:
+            target = self.target_transform(df[self.target])
+
+        target = pd.DataFrame(target).reset_index(drop=True)
+
+        if self._group:
+            group = self.group_transform(df[self.group])
+            group = pd.DataFrame(group).reset_index(drop=True)
+        else:
+            group = pd.DataFrame(0, index=np.arange(len(target)), columns=["group"])
+
+        return variables, target, group
+
     @property 
     def target(self):
         return self._target
