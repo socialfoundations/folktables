@@ -188,25 +188,6 @@ ca_labels.to_csv('ca_labels.csv', index=False)
 ```
 Take a look at the [examples](examples) for encoding the categorical features with the ```df_to_pandas``` method.
 
-### Automatically generate ```categories```
-Categories can automatically be generated and used in the ```df_to_pandas``` function.
-
-```py
-from folktables import ACSDataSource, ACSIncome
-from folktables import ACSIncome_categories
-
-data_source = ACSDataSource(survey_year='2018', horizon='1-Year', survey='person')
-ca_data = data_source.get_data(states=["CA"], download=True)
-
-definition_df = data_source.get_definitions(download=True)
-categories = ACSIncome.generate_categories(definition_df=definition_df)
-
-ca_features, ca_labels, _ = ACSIncome.df_to_pandas(ca_data, categories=categories, dummies=True)
-
-ca_features.to_csv('ca_features.csv', index=False)
-ca_labels.to_csv('ca_labels.csv', index=False)
-```
-
 ## Prediction tasks in folktables
 Folktables provides the following pre-defined prediction tasks:
 
@@ -348,4 +329,3 @@ R. Abebe, K. Aruleba, A. Birhane, S. Kingsley, G. Obaido, S. L. Remy, and S. Sad
 
 <a id="3">[3]</a> 
 S. Flood, M. King, R. Rodgers, S. Ruggles and J. Robert Warren.  Integrated Public Use Microdata Series, Current Population Survey: Version 8.0 [dataset].  Minneapolis, MN: IPUMS, 2020. https://doi.org/10.18128/D030.V8.0
-

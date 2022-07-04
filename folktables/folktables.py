@@ -26,16 +26,6 @@ class Problem(ABC):
         """Return learning problem as numpy array."""
         pass
 
-    @abstractmethod
-    def df_to_pandas(self, df):
-        """Return learning problem as pandas dataframe."""
-        pass
-
-    @abstractmethod
-    def generate_categories(self, definition_df):
-        """Generates a category dictionary using a definition dataframe. (can be used in df_to_pandas()"""
-        pass
-
     # Returns the column name
     @property    
     @abstractmethod
