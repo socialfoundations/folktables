@@ -167,9 +167,6 @@ class BasicProblem(Problem):
             mapping_dict = {key: value.replace(';', ',') for (key, value) in
                             zip(mapped_col.tolist(), coll_definition[6].tolist())}
 
-            for key, value in mapping_dict.items():
-                print(type(key))
-
             # add default value
             if -99999999999999.0 not in mapping_dict:
                 mapping_dict[-99999999999999.0] = 'N/A'
