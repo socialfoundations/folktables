@@ -19,7 +19,7 @@ class SupportedOS(Enum):
 
 
 class SupportedPanels(Enum):
-    """Enumeration of the OS SIPP supports for download."""
+    """Enumeration of the available SIPP panels."""
     PANEL_2014 = 2014
     PANEL_2018 = 2018
     PANEL_2019 = 2019

@@ -56,8 +56,7 @@ class SIPPDataSource(folktables.DataSource):
 
         # We always want to include `pnum` and `ssuid` in the variables
         # extracted in order to be able to determine unique individuals.
-        variables = map(lambda var: var.upper(), variables)
-        variables = set(variables)
+        variables = set(map(lambda var: var.upper(), variables))
         if 'PNUM' not in variables:
             print('Adding `PNUM` to the list of variables.')
             variables.add('PNUM')
@@ -73,13 +72,13 @@ class SIPPDataSource(folktables.DataSource):
                                    download=download)
 
     @staticmethod
-    def _create_unique_ids(data):
+    def create_unique_ids(data):
         """
         """
         ...
 
     @staticmethod
-    def _reshape_df(data):
+    def reshape_df(data):
         """
         """
         ...
