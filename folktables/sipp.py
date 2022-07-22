@@ -73,12 +73,29 @@ class SIPPDataSource(folktables.DataSource):
 
     @staticmethod
     def create_unique_ids(data):
-        """
+        """Creates unique IDs for the all respondents in the SIPP dataset.
+
+        Parameters
+        ----------
+        data : pd.DataFrame
+            Data frame containing the SIPP data from which the unique IDs will
+            be generated.
+
+        Notes
+        -----
+        The unique ID is determined by concatenating `PNUM` to `SSUID`.
         """
         ...
 
     @staticmethod
     def reshape_df(data):
-        """
+        """Reshapes the SIPP data so that each respondent only spans
+        one row.
+
+        Parameters
+        ----------
+        data : pd.DataFrame
+            Data frame containing the SIPP data in its original format
+            (i.e., the one returned by the method `get_data`).
         """
         ...

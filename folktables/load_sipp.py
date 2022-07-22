@@ -3,11 +3,11 @@ from dataclasses import dataclass
 from enum import Enum
 import json
 import os
-import requests
 from typing import Optional
 import zipfile
 
 import pandas as pd
+import requests
 
 SIPP_BASE_URL = 'https://www2.census.gov/programs-surveys/sipp/data/datasets/'
 
@@ -40,7 +40,17 @@ class FileResources:
 
 
 def load_json(file_path):
-    """
+    """Loads a JSON file based on the given file path.
+
+    Parameters
+    ----------
+    file_path : str
+        Path to the JSON file to be loaded.
+
+    Returns
+    -------
+    data : dict
+        A dictionary containing the JSON data.
     """
     with open(file_path, 'r') as json_file:
         data = json.load(json_file)
@@ -49,7 +59,8 @@ def load_json(file_path):
 
 
 def download_file(url, download_path):
-    """Downloads the file from a specified URL and returns the response.
+    """Makes a GET request to the specified URL and saves the
+    contents of the response to the specified path.
 
     Parameters
     ----------
@@ -57,6 +68,11 @@ def download_file(url, download_path):
         URL from where the data will be downloaded.
     download_path : str
         Path to where the downloaded content will be stored.
+
+    Returns
+    -------
+    download_path : str
+        Path to where the content is stored.
     """
     response = requests.get(url)
 
@@ -79,7 +95,18 @@ async def async_download_file(url, download_path):
 
 
 def extract_zip(data_dir, file_name, download_path):
-    """
+    """Extracts the contents from a Zip file, and removes the Zip files
+    if specified and its file path is not the same as that of the extracted
+    file.
+
+    Parameters
+    ----------
+    data_dir : str
+        Path to the directory where the file will be stored.
+    file_name : str
+        Name that will be given to the extracted file.
+    download_path : str
+        Path to where the Zip file is located.
     """
     with zipfile.ZipFile(download_path, 'r') as zip_ref:
         zip_ref.extract(file_name, path=data_dir)
@@ -90,6 +117,11 @@ def extract_zip(data_dir, file_name, download_path):
 
 def capitalize_variable_names(file_path):
     """Capitalizes all the variable names (first row) for a given file.
+
+    Parameters
+    ----------
+    file_path : str
+        Path to where the file is stored.
 
     Notes
     -----
@@ -112,7 +144,10 @@ def capitalize_variable_names(file_path):
 
 
 async def download_and_extract(files_resources, download):
-    """
+    """Determines whether a file is in local memory or needs to be
+    downloaded. If the file needs to be downloaded, then it calls the
+    corresponding functions to download, extract, and
+    correctly format the files.
     """
     # Determine which files we have to download.
     files_to_download = []
@@ -235,7 +270,37 @@ def load_sipp(root_dir,
               variables,
               os_to_support,
               download=False):
-    """
+    """Driver function to (down)load the SIPP data. It formats the data
+    types for the variables the user specified based on the US Census
+    Beureau's schema before loading the data into a pandas DataFrame.
+
+    Parameters
+    ----------
+    root_dir : str
+        Path to the root directory where the data is stored or will be stored.
+    panels : list[int]
+        Year's of the SIPP data to be downloaded.
+        We're currently only supporting panels starting from 2014
+        (i.e., >= 2014).
+    waves : Union[list[int], None]
+        The panel waves to be downloaded, e.g., `[1, 2, 3]`. It can also
+        take the value of `None` depending on whether the user passes
+        any values to the `SIPPDataSource.get_data` method.
+    variables : list[str]
+        Names of the variables to be included in the dataset.
+    os_to_support : str
+        OS specification in order to download the correct file. We only
+        allow two values: `windows/mac` or `gnu/linux`. This takes a
+        default value of `windows/mac`.
+    download : bool
+        Whether the dataset should be downloaded from the Census Bureau's
+        website. This takes a default value of `False`.
+
+    Returns
+    -------
+    data : dict[pd.DataFrame]
+        A dictionary mapping to pandas DataFrames containing the SIPP data
+        for the panels and waves the user requested.
     """
     # Create the URLs,file names, and file paths we'll need to download
     # and load the data and schema files.
