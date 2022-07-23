@@ -1,3 +1,4 @@
+from . import exceptions
 from . import folktables
 from . import load_sipp
 
@@ -10,7 +11,7 @@ class SIPPDataSource(folktables.DataSource):
 
         Parameters
         ----------
-        panels : list[int]
+        panels : Union[list[int], set[int], tuple[int]]
             Year's of the SIPP data to be downloaded.
             We're currently only supporting panels starting from 2014
             (i.e., >= 2014).
@@ -44,15 +45,32 @@ class SIPPDataSource(folktables.DataSource):
         if 2014 in self._panels:
             # If the year of the SIPP data is 2014, then the user must provide
             # a list of waves they want to download.
-            if not isinstance(waves, list) and not waves:
-                # TODO: create our own ErrorTypes for better software design.
-                raise ValueError('')
+            if not isinstance(waves, list):
+                raise TypeError(
+                    'We are expecting a variable of type `list` for the '
+                    '`variables` parameter.'
+                )
+            if not waves:
+                raise ValueError(
+                    'The variable you passed for the `variables` parameter '
+                    'was empty. You must pass a variable of type `list[int]`'
+                )
+            # We want to avoid the case in which the user passes duplicate
+            # values as this would result in downloading the same file
+            # more than once.
+            waves = set(waves)
 
         if os_to_support.lower() not in {
                 load_sipp.SupportedOS.WINDOWS_MAC.value,
                 load_sipp.SupportedOS.GNU_LINUX.value}:
-            # TODO: create our own ErrorTypes for better software design.
-            raise ValueError('')
+            raise exceptions.UnsupportedOSError(
+                f'The value "{os_to_support}" you passed in the '
+                f'`os_to_support` parameter is not supported by the Census '
+                f'Bureau to download the SIPP dataset. Please pass one of the'
+                f' following options: '
+                f'`{load_sipp.SupportedOS.WINDOWS_MAC.value}`, '
+                f'`{load_sipp.SupportedOS.GNU_LINUX.value}`'
+            )
 
         # We always want to include `pnum` and `ssuid` in the variables
         # extracted in order to be able to determine unique individuals.

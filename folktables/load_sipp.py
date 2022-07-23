@@ -9,6 +9,8 @@ import zipfile
 import pandas as pd
 import requests
 
+from . import exceptions
+
 SIPP_BASE_URL = 'https://www2.census.gov/programs-surveys/sipp/data/datasets/'
 
 
@@ -77,9 +79,10 @@ def download_file(url, download_path):
     response = requests.get(url)
 
     if response.status_code != 200:
-        # TODO: we'll probably want to create our own exception to account
-        # for this scenario.
-        raise ValueError(f'{response.status_code}\n{url}')
+        raise exceptions.FileDownloadError(
+            f'Failed to download the data from: {url}\n'
+            f'The HTTP request returned a {response.status_code} status code.'
+        )
 
     with open(download_path, 'wb') as handle:
         handle.write(response.content)
@@ -282,7 +285,7 @@ def load_sipp(root_dir,
         Year's of the SIPP data to be downloaded.
         We're currently only supporting panels starting from 2014
         (i.e., >= 2014).
-    waves : Union[list[int], None]
+    waves : Union[list[int], set[int], tuple[int], None]
         The panel waves to be downloaded, e.g., `[1, 2, 3]`. It can also
         take the value of `None` depending on whether the user passes
         any values to the `SIPPDataSource.get_data` method.
