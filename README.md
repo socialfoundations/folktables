@@ -228,7 +228,7 @@ ACSIncome = folktables.BasicProblem(
     target='PINCP',
     target_transform=lambda x: x > 50000,    
     group='RAC1P',
-    preprocess=adult_filter,
+    preprocess=folktables.adult_filter,
     postprocess=lambda x: np.nan_to_num(x, -1),
 )
 ```
@@ -259,7 +259,7 @@ ACSIncomeNew = folktables.BasicProblem(
     target='PINCP',
     target_transform=lambda x: x > 25000,    
     group='SEX',
-    preprocess=adult_filter,
+    preprocess=folktables.adult_filter,
     postprocess=lambda x: np.nan_to_num(x, -1),
 )
 ```
