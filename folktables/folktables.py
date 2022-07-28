@@ -6,18 +6,6 @@ import numpy as np
 import pandas as pd
 
 
-class DataSource(ABC):
-    """Provides access to data source."""
-
-    @abstractmethod
-    def get_data(self, **kwargs):
-        """Get data sample from universe.
-
-        Returns:
-            Sample."""
-        pass
-
-
 class Problem(ABC):
     """Abstract class for specifying learning problem."""
 
