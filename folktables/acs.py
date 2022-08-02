@@ -59,7 +59,7 @@ class ACSDataSource(folktables.DataSource):
 
     def get_definitions(self, download=False):
         """
-        Gets data definitions.
+        Gets categorical data definitions dataframe.
         Only works for year>=2017 as previous years don't include .csv definition files.
         """
         return load_definitions(root_dir=self._root_dir, year=self._survey_year, horizon=self._horizon,

@@ -141,41 +141,6 @@ class BasicProblem(Problem):
 
         return variables, target, group
 
-    def generate_categories(self, definition_df):
-        """
-        Generates a categories dictionary using the provided definition dataframe. Does not create a category mapping
-        for variable requiring the 2010 Public use microdata area code (PUMA) as these need an additional definition
-        file which are not unique without the state code.
-        """
-        categories = {}
-        for feature in self.features:
-            if 'PUMA' in feature:
-                continue
-
-            # extract definitions for this feature
-            coll_definition = definition_df[(definition_df[0] == 'VAL') & (definition_df[1] == feature)]
-
-            # extracts if the feature is numeric or categorical --> 'N' == numeric
-            coll_type = coll_definition.iloc[0][2]
-            if coll_type == 'N':
-                # do not add to categories
-                continue
-
-            # transform to numbers as definitions are strings.
-            mapped_col = pd.to_numeric(coll_definition[4], errors='coerce').fillna(-99999999999999.0)
-
-            mapping_dict = {key: value.replace(';', ',') for (key, value) in
-                            zip(mapped_col.tolist(), coll_definition[6].tolist())}
-
-            # add default value
-            if -99999999999999.0 not in mapping_dict:
-                mapping_dict[-99999999999999.0] = 'N/A'
-            mapping_dict[float('nan')] = mapping_dict[-99999999999999.0]
-            del mapping_dict[-99999999999999.0]
-
-            categories[feature] = mapping_dict
-        return categories
-
     @property
     def target(self):
         return self._target

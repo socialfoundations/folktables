@@ -172,3 +172,45 @@ def load_definitions(root_dir, year=2018, horizon='1-Year', download=False):
         handle.write(response.content)
 
     return pd.read_csv(file_path, sep=',', header=None, names=list(range(7)))
+
+
+def generate_categories(features, definition_df):
+    """Generates a categories dictionary using the provided definition dataframe. Does not create a category mapping
+    for variables requiring the 2010 Public use microdata area code (PUMA) as these need an additional definition
+    file which are not unique without the state code.
+
+    Args:
+        definition_df: pd.DataFrame (received from ```ACSDataSource.get_definitions()''')
+
+    Returns:
+        categories: nested dict with columns of categorical features
+            and their corresponding encodings (see examples folder)."""
+    categories = {}
+    for feature in features:
+        if 'PUMA' in feature:
+            continue
+
+        # extract definitions for this feature
+        coll_definition = definition_df[(definition_df[0] == 'VAL') & (definition_df[1] == feature)]
+
+        # extracts if the feature is numeric or categorical --> 'N' == numeric
+        coll_type = coll_definition.iloc[0][2]
+        if coll_type == 'N':
+            # do not add to categories
+            continue
+
+        # transform to numbers as downloaded definitions are in string format.
+        # -99999999999999.0 is used as a placeholder value for NaN
+        # as multiple NaN values are seen as different keys in a dictionary, a placeholder is needed
+        mapped_col = pd.to_numeric(coll_definition[4], errors='coerce').fillna(-99999999999999.0)
+        mapping_dict = dict(zip(mapped_col.tolist(), coll_definition[6].tolist()))
+
+        # add default value when not already available from definitions
+        if -99999999999999.0 not in mapping_dict:
+            mapping_dict[-99999999999999.0] = 'N/A'
+        # transform placeholder value back to NaN ensuring a single NaN key instaid of multiple
+        mapping_dict[float('nan')] = mapping_dict[-99999999999999.0]
+        del mapping_dict[-99999999999999.0]
+
+        categories[feature] = mapping_dict
+    return categories
