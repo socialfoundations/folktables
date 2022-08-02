@@ -4,5 +4,5 @@ class FileDownloadError(Exception):
 
 class UnsupportedOSError(Exception):
     """Exception raised when the user passes the value for an OS for which
-    the SIPP data is not supported.
+    a dataset is not supported.
     """
