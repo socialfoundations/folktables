@@ -180,6 +180,7 @@ def generate_categories(features, definition_df):
     file which are not unique without the state code.
 
     Args:
+        features: list (list of features to include in the categories dictionary, numeric features will be ignored)
         definition_df: pd.DataFrame (received from ```ACSDataSource.get_definitions()''')
 
     Returns:
