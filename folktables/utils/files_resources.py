@@ -1,10 +1,9 @@
-from abc import ABC
 from dataclasses import dataclass
 import pathlib
 
 
 @dataclass
-class FilesResource(ABC):
+class FilesResource:
     """Stores information needed to (down)load a dataset.
 
     Attributes

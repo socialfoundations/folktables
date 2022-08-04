@@ -32,11 +32,15 @@ def test_extract_content_from_zip(tmp_path):
                                         download_path)
 
     assert pathlib.Path(tmp_path, 'foo.txt').exists()
+
+    with open(existing_file_path, 'r') as file:
+        assert file.read() == "hello world"
+
     assert not download_path.exists()
 
 
 def test_extract_content_from_zip_raises_invalid_file_path():
-    """Tests that an INvalidfilePath exception is raised if the we provide
+    """Tests that an InvalidFilePath exception is raised if the we provide
     a file path equal to that of the zip file.
     """
     with pytest.raises(exceptions.InvalidFilePath):
