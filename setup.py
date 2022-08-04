@@ -13,7 +13,7 @@ setup(
         "requests",
         "sklearn",
     ],
-    test_require=[
+    tests_require=[
         "requests-mock",
     ],
     classifiers=[
