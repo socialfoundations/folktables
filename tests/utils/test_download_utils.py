@@ -25,18 +25,6 @@ def test_download_file(tmp_path, requests_mock):
         assert file.read() == 'hello world'
 
 
-def test_download_error(tmp_path, requests_mock):
-    """Tests that if the HTTP request wasn't successful (i.e., it doesn't
-    return a 200 status code) that a FilesDownloadError is raised.
-    """
-    file_path = tmp_path / 'test_file.txt'
-
-    requests_mock.get(MOCK_URL, text='hello world', status_code=400)
-
-    with pytest.raises(exceptions.FileDownloadError):
-        download_utils.download_file(MOCK_URL, file_path)
-
-
 def test_determine_files_to_download(tmp_path):
     """Tests that we can differentiate between which files need to be
     downloaded and which ones are already downloaded.
