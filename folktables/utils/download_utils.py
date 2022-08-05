@@ -31,13 +31,7 @@ def download_file(url, download_path):
     """
     response = requests.get(url)
 
-    try:
-        response.raise_for_status()
-    except requests.exceptions.HTTPError:
-        raise exceptions.FileDownloadError(
-            f'Failed to download the data from: {url}\n'
-            f'The HTTP request returned a {response.status_code} status code.'
-        )
+    response.raise_for_status()
 
     with open(download_path, 'wb') as handle:
         handle.write(response.content)
