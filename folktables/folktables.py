@@ -141,7 +141,7 @@ class BasicProblem(Problem):
 
         return variables, target, group
 
-    @property 
+    @property
     def target(self):
         return self._target
     

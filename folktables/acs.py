@@ -1,11 +1,9 @@
 """Data source and problem definitions for American Community Survey (ACS) Public Use Microdata Sample (PUMS)."""
-import os
-
 import numpy as np
 import pandas as pd
 
 from . import folktables
-from .load_acs import load_acs
+from .load_acs import load_acs, load_definitions
 
 
 class ACSDataSource(folktables.DataSource):
@@ -49,7 +47,7 @@ class ACSDataSource(folktables.DataSource):
                                       survey='household',
                                       serial_filter_list=list(data['SERIALNO']),
                                       download=download)
-            
+
             # We only want to keep the columns in the household dataframe that don't appear in the person
             # dataframe, but we *do* want to include the SERIALNO column to merge on.
             household_cols = (set(household_data.columns) - set(data.columns)).union(set(['SERIALNO']))
@@ -58,6 +56,15 @@ class ACSDataSource(folktables.DataSource):
             return join
         else:
             return data
+
+    def get_definitions(self, download=False):
+        """
+        Gets categorical data definitions dataframe.
+        Only works for year>=2017 as previous years don't include .csv definition files.
+        """
+        return load_definitions(root_dir=self._root_dir, year=self._survey_year, horizon=self._horizon,
+                                download=download)
+
 
 def adult_filter(data):
     """Mimic the filters in place for Adult data.
