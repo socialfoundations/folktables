@@ -70,8 +70,7 @@ def initialize_and_download(datadir, state, year, horizon, survey, download=Fals
     # Download and extract file
     base_url= f'https://www2.census.gov/programs-surveys/acs/data/pums/{year}/{horizon}'
     remote_fname = f'csv_{survey_code}{state.lower()}.zip'
-    url = os.path.join(base_url, remote_fname).replace('\\', '/')  # Transform Windows path into valid url
-
+    url = f'{base_url}/{remote_fname}'
     try:
         download_and_extract(url, datadir, remote_fname, file_name, delete_download=True)
     except Exception as e:
@@ -144,3 +143,75 @@ def load_acs(root_dir, states=None, year=2018, horizon='1-Year',
     dtypes = {'PINCP' : np.float64, 'RT' : str, 'SOCP' : str, 'SERIALNO' : str, 'NAICSP' : str}
                     
     return pd.read_csv(sample, dtype=dtypes)
+
+
+def load_definitions(root_dir, year=2018, horizon='1-Year', download=False):
+    """
+    Loads the data attribute definition file.
+
+    File only available for year >= 2017.
+    """
+    assert horizon in ['1-Year', '5-Year']
+    assert int(year) >= 2017
+
+    base_datadir = os.path.join(root_dir, str(year), horizon)
+    file_path = os.path.join(base_datadir, 'definition.csv')
+    if os.path.exists(file_path):
+        return pd.read_csv(file_path, sep=',', header=None, names=list(range(7)))
+    if not download:
+        raise FileNotFoundError(
+            f'Could not find {year} {horizon} attribute definition. Call get_definitions with download=True to download the definitions.')
+
+    # download definition first
+    print('Downloading the attribute definition file...')
+    year_string = year if horizon == '1-Year' else f'{year - 4}-{year}'
+    url = f'https://www2.census.gov/programs-surveys/acs/tech_docs/pums/data_dict/PUMS_Data_Dictionary_{year_string}.csv'
+
+    response = requests.get(url)
+    with open(file_path, 'wb') as handle:
+        handle.write(response.content)
+
+    return pd.read_csv(file_path, sep=',', header=None, names=list(range(7)))
+
+
+def generate_categories(features, definition_df):
+    """Generates a categories dictionary using the provided definition dataframe. Does not create a category mapping
+    for variables requiring the 2010 Public use microdata area code (PUMA) as these need an additional definition
+    file which are not unique without the state code.
+
+    Args:
+        features: list (list of features to include in the categories dictionary, numeric features will be ignored)
+        definition_df: pd.DataFrame (received from ```ACSDataSource.get_definitions()''')
+
+    Returns:
+        categories: nested dict with columns of categorical features
+            and their corresponding encodings (see examples folder)."""
+    categories = {}
+    for feature in features:
+        if 'PUMA' in feature:
+            continue
+
+        # extract definitions for this feature
+        coll_definition = definition_df[(definition_df[0] == 'VAL') & (definition_df[1] == feature)]
+
+        # extracts if the feature is numeric or categorical --> 'N' == numeric
+        coll_type = coll_definition.iloc[0][2]
+        if coll_type == 'N':
+            # do not add to categories
+            continue
+
+        # transform to numbers as downloaded definitions are in string format.
+        # -99999999999999.0 is used as a placeholder value for NaN
+        # as multiple NaN values are seen as different keys in a dictionary, a placeholder is needed
+        mapped_col = pd.to_numeric(coll_definition[4], errors='coerce').fillna(-99999999999999.0)
+        mapping_dict = dict(zip(mapped_col.tolist(), coll_definition[6].tolist()))
+
+        # add default value when not already available from definitions
+        if -99999999999999.0 not in mapping_dict:
+            mapping_dict[-99999999999999.0] = 'N/A'
+        # transform placeholder value back to NaN ensuring a single NaN key instaid of multiple
+        mapping_dict[float('nan')] = mapping_dict[-99999999999999.0]
+        del mapping_dict[-99999999999999.0]
+
+        categories[feature] = mapping_dict
+    return categories
