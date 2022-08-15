@@ -269,6 +269,14 @@ the ACS PUMS data release are valid to include as features or as the target.
 Please see the [ACS PUMS data
 dictionary](https://www.census.gov/programs-surveys/acs/microdata/documentation.html)
 for the full list of variables available. 
+Also note that to protect privacy, the Census Bureau adds small perturbations 
+to some variables, such as age, and may swap some variable values between 
+similar individuals, when those values are relatively uncommon in the general population. 
+These perturbations keep marginal statistics unchanged, 
+but could affect conclusions drawn about individual predictive accuracy. Please see 
+[Accuracy of the PUMS](https://www.census.gov/programs-surveys/acs/microdata/documentation.html) 
+and [ASEC documentation](https://www2.census.gov/programs-surveys/cps/techdocs/cpsmar20.pdf) 
+for details on such perturbations.
 
 
 ## Scope and limitations
