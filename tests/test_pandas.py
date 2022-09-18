@@ -1,6 +1,8 @@
 import numpy as np
 
-from folktables import ACSDataSource, ACSIncome, ACSEmployment, ACSHealthInsurance, generate_categories
+from folktables.datasources.acs_datasource import (ACSDataSource,
+                                                   generate_categories)
+from folktables import ACSIncome, ACSEmployment, ACSHealthInsurance
 
 
 def test_pandas_with_numpy():
@@ -36,16 +38,6 @@ def test_pandas_with_numpy():
 
     assert pan_features.index.equals(pan_labels.index)
     assert pan_features.index.equals(pan_group.index)
-
-
-def test_definitions_download():
-    data_source = ACSDataSource(survey_year='2018', horizon='1-Year', survey='person')
-    definition_df = data_source.get_definitions(download=True)
-
-    # test some definition_df properties
-    assert len(definition_df.columns) == 7
-    assert (np.isin(definition_df[0].unique(),['NAME','VAL'])).all()
-    assert (np.isin(definition_df[2].unique(), ['C', 'N'])).all()
 
 
 def test_pandas_automatic_categories():

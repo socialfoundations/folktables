@@ -5,7 +5,8 @@ from sklearn.model_selection import train_test_split
 from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import StandardScaler
 
-from folktables import ACSDataSource, ACSEmployment
+from folktables.datasources.acs_datasource import ACSDataSource
+from folktables import ACSEmployment
 
 def test_download():
     data_source = ACSDataSource(survey_year='2018', horizon='1-Year', survey='person')
