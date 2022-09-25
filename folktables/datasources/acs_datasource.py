@@ -6,6 +6,7 @@ import random
 import numpy as np
 import pandas as pd
 
+from folktables.datasources.datasource import DataSource
 from folktables.utils import download_utils
 from folktables.utils import files_resources
 from folktables.utils import load_utils
@@ -47,10 +48,10 @@ class Surveys(Enum):
     HOUSEHOLD = 'household'
 
 
-class ACSDataSource:
+class ACSDataSource(DataSource):
     """Data source implementation for ACS data."""
 
-    def __init__(self, survey_year, horizon, survey, root_dir="data"):
+    def __init__(self, survey_year, horizon, survey, root_dir='data'):
         """Create data source around PUMS data for specific year,
         time horizon, survey type.
 
@@ -63,13 +64,14 @@ class ACSDataSource:
         survey: str
             Must be 'person' or 'household'.
         root_dir : str
-            String representing the path to where the data is (shoudl be)
+            String representing the path to where the data is (should be)
             stored.
         """
+        super().__init__(root_dir)
+
         self._survey_year = self._validate_survey_year(survey_year)
         self._horizon = self._validate_horizon(horizon)
         self._survey = self._validate_survey(survey)
-        self._root_dir = root_dir
 
     @staticmethod
     def _validate_survey_year(survey_year):
@@ -126,7 +128,7 @@ class ACSDataSource:
 
     @staticmethod
     def _validate_survey(survey):
-        """Cheks the survey being requested is either for a person or a
+        """Checks the survey being requested is either for a person or a
         household.
 
         Parameters

@@ -35,7 +35,8 @@ URL_2018_DATA = f'{BASE_URL}2018/5-Year/{ZIP_NAME_2018}'
 
 
 def generate_zip_file(file_to_zip, zip_name):
-    """
+    """Zips some files and returns it as a bytes object.
+    This method will help us mock the HTTP requests.
 
     Parameters
     ----------
@@ -44,6 +45,11 @@ def generate_zip_file(file_to_zip, zip_name):
     zip_name : str
         Name to be given to the zip file (i.e., file path and file name of
         where the Zip file will be stored).
+
+    Returns
+    -------
+    bytes
+        The bytes of the zip file that was just created.
     """
     # Zip the artificially created dataset.
     with zipfile.ZipFile(zip_name, mode='w') as archive:
