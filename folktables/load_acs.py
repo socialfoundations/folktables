@@ -114,7 +114,7 @@ def load_acs(root_dir, states=None, year=2018, horizon='1-Year',
     dtypes = {'PINCP': np.float64, 'RT': str, 'SOCP': str, 'SERIALNO': str, 'NAICSP': str}
     df_list = []
     for file_name in file_names:
-        df = pd.read_csv(file_name, dtype=dtypes).replace(' ','')
+        df = pd.read_csv(file_name, dtype=dtypes, engine="c").replace(' ','')
         if serial_filter_list is not None:
             df = df[df['SERIALNO'].isin(serial_filter_list)]
         df_list.append(df)

@@ -236,6 +236,16 @@ ACSTravelTime = folktables.BasicProblem(
     postprocess=lambda x: np.nan_to_num(x, -1),
 )
 
+
+def mobility_filter(data):
+    """
+    Filters for the employment prediction task
+    """
+    df = data
+    df = df[df['AGEP'] > 18]
+    df = df[df['AGEP'] < 35]
+    return df
+
 ACSMobility = folktables.BasicProblem(
     features=[
         'AGEP',
@@ -263,7 +273,7 @@ ACSMobility = folktables.BasicProblem(
     target="MIG",
     target_transform=lambda x: x == 1,
     group='RAC1P',
-    preprocess=lambda x: x.drop(x.loc[(x['AGEP'] <= 18) | (x['AGEP'] >= 35)].index),
+    preprocess=mobility_filter,
     postprocess=lambda x: np.nan_to_num(x, -1),
 )
 
