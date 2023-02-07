@@ -11,7 +11,7 @@ setup(
         "numpy",
         "pandas",
         "requests",
-        "sklearn",
+        "scikit-learn",
     ],
     tests_require=[
         "requests-mock",
