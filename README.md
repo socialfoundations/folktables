@@ -60,13 +60,13 @@ documentation](https://www.census.gov/programs-surveys/acs/microdata/documentati
 ### Evaluating algorithms for fair machine learning
 We first construct a data source for the 2018 yearly [American Community
 Survey](https://www.census.gov/programs-surveys/acs), download the
-corresponding data for California, and use this data to instantiate a
+corresponding data for Alabama, and use this data to instantiate a
 prediction task of interest, for example, the `ACSEmployment` task.
 ```py
 from folktables import ACSDataSource, ACSEmployment
 
 data_source = ACSDataSource(survey_year='2018', horizon='1-Year', survey='person')
-acs_data = data_source.get_data(states=["CA"], download=True)
+acs_data = data_source.get_data(states=["AL"], download=True)
 features, label, group = ACSEmployment.df_to_numpy(acs_data)
 ```
 Next we train a simple model on this dataset and use the `group` labels to
@@ -91,7 +91,7 @@ yhat = model.predict(X_test)
 white_tpr = np.mean(yhat[(y_test == 1) & (group_test == 1)])
 black_tpr = np.mean(yhat[(y_test == 1) & (group_test == 2)])
 
-# Equality of opportunity violation: 0.0455
+# Equality of opportunity violation: 0.0871
 white_tpr - black_tpr
 ```
 The ACS data source contains data for all fifty states, each of which has a
