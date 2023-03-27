@@ -2,16 +2,16 @@ from setuptools import setup, find_packages
 
 setup(
     name="folktables",
-    version="0.0.11",
+    version="0.0.12",
     author="John Miller, Frances Ding, Ludwig Schmidt, Moritz Hardt",
-    author_email="miller_john@berkeley.edu",
+    author_email="hardt@is.mpg.de",
     description="New machine learning benchmarks from tabular datasets.",
     packages=find_packages(),
     install_requires=[
         "numpy",
         "pandas",
         "requests",
-        "sklearn",
+        "scikit-learn",
     ],
     tests_require=[
         "requests-mock",
