@@ -111,38 +111,15 @@ def load_acs(root_dir, states=None, year=2018, horizon='1-Year',
             initialize_and_download(base_datadir, state, year, horizon, survey, download=download)
         )
 
-    sample = io.StringIO()
-
-    first = True
-    
+    dtypes = {'PINCP': np.float64, 'RT': str, 'SOCP': str, 'SERIALNO': str, 'NAICSP': str}
+    df_list = []
     for file_name in file_names:
-      
-        with open(file_name, 'r') as f:
-            
-            if first:
-                sample.write(next(f))
-                first = False
-            else:
-                next(f)
-
-            if serial_filter_list is None:
-                for line in f:
-                    if random.uniform(0, 1) < density:
-                        # strip whitespace found in some early files
-                        sample.write(line.replace(' ',''))
-            else:
-                for line in f:
-                    serialno = line.split(',')[1]
-                    if serialno in serial_filter_list:
-                        # strip whitespace found in some early files
-                        sample.write(line.replace(' ',''))
-
-            
-    sample.seek(0)
-    
-    dtypes = {'PINCP' : np.float64, 'RT' : str, 'SOCP' : str, 'SERIALNO' : str, 'NAICSP' : str}
-                    
-    return pd.read_csv(sample, dtype=dtypes)
+        df = pd.read_csv(file_name, dtype=dtypes).replace(' ','')
+        if serial_filter_list is not None:
+            df = df[df['SERIALNO'].isin(serial_filter_list)]
+        df_list.append(df)
+    all_df = pd.concat(df_list)
+    return all_df
 
 
 def load_definitions(root_dir, year=2018, horizon='1-Year', download=False):
