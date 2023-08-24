@@ -117,10 +117,10 @@ def load_acs(root_dir, states=None, year=2018, horizon='1-Year',
             initialize_and_download(base_datadir, state, year, horizon, survey, download=download)
         )
 
-    dtypes = {'PINCP': np.float64, 'RT': str, 'SOCP': str, 'SERIALNO': str, 'NAICSP': str}
     df_list = []
     for file_name in file_names:
-        df = pd.read_csv(file_name, dtype=dtypes).replace(' ','')
+        dtype = {'RT': str, 'SOCP': str, 'SERIALNO': str, 'NAICSP': str}
+        df = pd.read_csv(file_name, na_values=[' '], dtype=dtype).replace(' ','')
         if serial_filter_list is not None:
             df = df[df['SERIALNO'].isin(serial_filter_list)]
         df_list.append(df)
