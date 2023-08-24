@@ -46,9 +46,10 @@ def download_and_extract(url, datadir, remote_fname, file_name, delete_download=
 def initialize_and_download(datadir, state, year, horizon, survey, download=False):
     """Download the dataset (if required)."""
     assert horizon in ['1-Year', '5-Year']
-    assert int(year) >= 2014
     assert state in state_list
     assert survey in ['person', 'household']
+    assert int(year) >= 2000
+    assert int(year) >= 2009 or horizon == '1-Year'
 
     state_code = _STATE_CODES[state]
     survey_code = 'p' if survey == 'person' else 'h'
@@ -68,7 +69,9 @@ def initialize_and_download(datadir, state, year, horizon, survey, download=Fals
     
     print(f'Downloading data for {year} {horizon} {survey} survey for {state}...')
     # Download and extract file
-    base_url= f'https://www2.census.gov/programs-surveys/acs/data/pums/{year}/{horizon}'
+    base_url = f'https://www2.census.gov/programs-surveys/acs/data/pums/{year}'
+    if year >= 2007:
+        base_url += f'/{horizon}'
     remote_fname = f'csv_{survey_code}{state.lower()}.zip'
     url = f'{base_url}/{remote_fname}'
     try:
@@ -91,8 +94,11 @@ def load_acs(root_dir, states=None, year=2018, horizon='1-Year',
     and the output is instead filtered with the provided list (only entries with
     a serial number in the list are kept).
     """
-    if int(year) < 2014:
-        raise ValueError('Year must be >= 2014')
+    if int(year) < 2000:
+        raise ValueError('Only years 2000 and later are supported')
+
+    if int(year) < 2009 and horizon != '1-Year':
+        raise ValueError('5-Year estimates are not available for years before 2009')
 
     if serial_filter_list is not None:
         serial_filter_list = set(serial_filter_list)  # set for faster membership check
