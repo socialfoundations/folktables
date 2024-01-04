@@ -12,9 +12,9 @@ def req():
 
 def req_api():
     start = datetime.datetime.now()
-     resp = requests.get('https://api.census.gov/data/2018/acs/acs1/pums?get=AGEP,SCHL,MAR,SEX,DIS,ESP,CIT,MIG,MIL,ANC,NATIVITY,DEAR,DEYE,DREM,PINCP,ESR,ST,FER,RAC1P,PUBCOV&in=state:06')
-     delta = datetime.datetime.now() - start
-     print(delta)
+    resp = requests.get('https://api.census.gov/data/2018/acs/acs1/pums?get=AGEP,SCHL,MAR,SEX,DIS,ESP,CIT,MIG,MIL,ANC,NATIVITY,DEAR,DEYE,DREM,PINCP,ESR,ST,FER,RAC1P,PUBCOV&in=state:06')
+    delta = datetime.datetime.now() - start
+    print(delta)
 
 req()
 
