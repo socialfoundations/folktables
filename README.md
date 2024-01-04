@@ -1,3 +1,14 @@
+# TODO:
+* Change the `get_data` of `ACSDataSource` class to not download data but rather grab dynamically from API
+    * [NOTE] Turns out that using the web API is 12-44x slower than downloading the CSV 😭 (run `api_tests.py`)
+    * [NOTE] this supports a use case where the user only needs the data for one problem, and will not continually
+    use the data source for many different problems
+    * Support the household case of `get_data`
+* Support CPS data in addition to ACS by making a new subclass of `DataSource`: `CPSDataSource`
+    * [NOTE] (CPS variables here https://api.census.gov/data/2021/cps/basic/jun/variables.html)
+    * [NOTE] Folktables only works with Census Bureau microdata, not aggregated data (as I did for 1701X)
+* Support multiple years at the same time
+
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?color=g&style=plastic)](https://opensource.org/licenses/MIT)
 [![pypy: MIT](https://static.pepy.tech/personalized-badge/folktables?period=total&units=international_system&left_color=black&right_color=brightgreen&left_text=Downloads)](https://pepy.tech/project/folktables)

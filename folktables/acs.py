@@ -9,13 +9,15 @@ from .load_acs import load_acs, load_definitions
 class ACSDataSource(folktables.DataSource):
     """Data source implementation for ACS PUMS data."""
 
-    def __init__(self, survey_year, horizon, survey, root_dir="data"):
+    def __init__(self, survey_year, horizon, survey, use_api=False, root_dir="data"):
         """Create data source around PUMS data for specific year, time horizon, survey type.
 
         Args:
             survey_year: String. Year of ACS PUMS data, e.g., '2018'
             horizon: String. Must be '1-Year' or '5-Year'
             survey: String. Must be 'person' or 'household'
+            use_api: Boolean. Setting to True accesses ACS data from the Census Bureau API,
+                     eliminating the need for local download
 
         Returns:
             ACSDataSource
@@ -25,6 +27,7 @@ class ACSDataSource(folktables.DataSource):
         self._survey_year = survey_year
         self._horizon = horizon
         self._survey = survey
+        self._use_api = use_api
         self._root_dir = root_dir
 
     def get_data(self, states=None, density=1.0, random_seed=0, join_household=False, download=False):
@@ -46,7 +49,8 @@ class ACSDataSource(folktables.DataSource):
                                       horizon=self._horizon,
                                       survey='household',
                                       serial_filter_list=list(data['SERIALNO']),
-                                      download=download)
+                                      download=download,
+                                      use_api=self._use_api)
 
             # We only want to keep the columns in the household dataframe that don't appear in the person
             # dataframe, but we *do* want to include the SERIALNO column to merge on.

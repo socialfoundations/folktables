@@ -83,7 +83,7 @@ def initialize_and_download(datadir, state, year, horizon, survey, download=Fals
 def load_acs(root_dir, states=None, year=2018, horizon='1-Year',
              survey='person', density=1, random_seed=1,
              serial_filter_list=None,
-             download=False):
+             download=False, use_api=False):
     """
     Load sample of ACS PUMS data from Census csv files into DataFrame.
 
