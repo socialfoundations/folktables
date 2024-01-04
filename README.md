@@ -1,3 +1,10 @@
+# TODO:
+* Support CPS data in addition to ACS by making a new subclass of `DataSource`: `CPSDataSource`
+    * [NOTE] CPS variables here https://api.census.gov/data/2021/cps/basic/jun/variables.html, also as a text file in the same folder as the data for a year: https://www2.census.gov/programs-surveys/cps/datasets/2021/basic/2021_Basic_CPS_Public_Use_Record_Layout_plus_IO_Code_list.txt
+    * Add to README: to find the variable meanings, go to https://www2.census.gov/programs-surveys/cps/datasets/, select the year of interest, then in the `basic/` folder there will be a `.txt` file that provides variable name explanations
+    * Finish `filter_by_state()` of `load_cps.py`
+    * Update README and include a CPS example
+    * Change `target_transform` of `CPSEmployment` class to allow x to be 1 or 2
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?color=g&style=plastic)](https://opensource.org/licenses/MIT)
 [![pypy: MIT](https://static.pepy.tech/personalized-badge/folktables?period=total&units=international_system&left_color=black&right_color=brightgreen&left_text=Downloads)](https://pepy.tech/project/folktables)
