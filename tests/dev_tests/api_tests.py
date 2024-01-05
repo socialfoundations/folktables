@@ -2,6 +2,12 @@ from folktables import ACSDataSource, ACSPublicCoverage
 import requests
 import datetime
 
+'''
+This test shows how using the Census Bureau's web API to get prefiltered ACS data in JSON format
+is 12-44x slower than just downloading the CSV of the survey data in its entirety, at least at
+the time of creation for this test (January 4, 2024).
+'''
+
 def req():
     start = datetime.datetime.now()
     data_source = ACSDataSource(survey_year='2018', horizon='1-Year', survey='person')
