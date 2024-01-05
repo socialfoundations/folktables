@@ -61,5 +61,5 @@ def download_data(filepath, year, month):
     df = pd.read_csv(filepath).replace(' ','')
     return df
 
-def filter_by_state(dataframe, state_list):
-    pass
+def filter_by_state(df, state_list):
+    return df[df['GESTFIPS'].isin([int(_STATE_CODES[state]) for state in state_list])]

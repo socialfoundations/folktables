@@ -56,10 +56,15 @@ CPSEmployment = folktables.BasicProblem(
         'PRTAGE',
         'PEEDUCA',
         'PESEX',
-        'PEMARITL'
+        'PEMARITL',
+        'PRDASIAN',
+        'PRDTHSP',
+        'PENATVTY',
+        'HEHOUSUT',
+        'HEFAMINC'
     ],
     target='PEMLR',
-    target_transform=lambda x: x==1,
+    target_transform=lambda x: (x==1) | (x==2),
     group='PTDTRACE',
     preprocess=lambda x: x,
     postprocess=lambda x: np.nan_to_num(x, -1),
