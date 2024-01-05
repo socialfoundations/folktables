@@ -55,7 +55,8 @@ can be easily downloaded and used for a variety of benchmarking tasks.
 For information about the features, response, or group membership coding for any
 of the American Community Survey (ACS) datasets, please refer to the [ACS PUMS
 documentation](https://www.census.gov/programs-surveys/acs/microdata/documentation.html).
-To see this information for CPS datasets, refer [here](https://www2.census.gov/programs-surveys/cps/datasets/) 
+To see this information for [Current Population Survey](https://www.bls.gov/cps/) (CPS) 
+datasets, refer [here](https://www2.census.gov/programs-surveys/cps/datasets/) 
 and navigate to the IO Code List `.txt` file in the `basic/` folder
 of the year you are pulling data from. The ACS is conducted annualy while the CPS
 is conducted monthly and focuses on labor force statistics.
@@ -234,7 +235,7 @@ Folktables provides the following pre-defined prediction tasks:
 
 - **ACSIncomePovertyRatio**: predict an individual's income as a ratio of the poverty rate.
 
-- **CPSEmployment**: predict whether an individual is employed using data from the Current Population Survey (CPS).
+- **CPSEmployment**: predict whether an individual is employed using data from the Current Population Survey.
 
 Each of these tasks can be instantiated on different ACS PUMS data samples, as
 illustrated in the [quick start examples](#quick-start-examples). Further
