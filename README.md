@@ -55,8 +55,8 @@ can be easily downloaded and used for a variety of benchmarking tasks.
 For information about the features, response, or group membership coding for any
 of the American Community Survey (ACS) datasets, please refer to the [ACS PUMS
 documentation](https://www.census.gov/programs-surveys/acs/microdata/documentation.html).
-To see this information for [Current Population Survey](https://www.bls.gov/cps/) (CPS) 
-datasets, refer [here](https://www2.census.gov/programs-surveys/cps/datasets/) 
+To see this information for [Current Population Survey](https://www.census.gov/programs-surveys/cps.html) 
+(CPS) datasets, refer [here](https://www2.census.gov/programs-surveys/cps/datasets/) 
 and navigate to the IO Code List `.txt` file in the `basic/` folder
 of the year you are pulling data from. The ACS is conducted annualy while the CPS
 is conducted monthly and focuses on labor force statistics.
