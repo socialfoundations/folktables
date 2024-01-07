@@ -19,10 +19,9 @@ class CPSDataSource(folktables.DataSource):
         Returns:
             CPSDataSource
         """
-
-        # back through 1994 is provided, but files are raw text (not .csv) and need specific parses written
-        assert type(survey_year) == type(0)
         assert type(survey_month) == type('')
+        survey_year = int(survey_year)
+        # back through 1994 is provided, but files are raw text (not .csv) and need specific parses written
         if survey_year not in range(2020, datetime.now().year+1):
             raise ValueError("Data not available for the specified year")
         months = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec']

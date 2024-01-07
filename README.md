@@ -58,8 +58,10 @@ documentation](https://www.census.gov/programs-surveys/acs/microdata/documentati
 To see this information for [Current Population Survey](https://www.census.gov/programs-surveys/cps.html) 
 (CPS) datasets, refer [here](https://www2.census.gov/programs-surveys/cps/datasets/) 
 and navigate to the IO Code List `.txt` file in the `basic/` folder
-of the year you are pulling data from. For example, [here](https://www2.census.gov/programs-surveys/cps/datasets/2023/basic/2023_Basic_CPS_Public_Use_Record_Layout_plus_IO_Code_list.txt) are the variable explanations
-for the CPS as of January 2023. The ACS is conducted annually and has more variables that 
+of the year you are pulling data from. For example, [here](https://www2.census.gov/programs-surveys/cps/datasets/2023/basic/2023_Basic_CPS_Public_Use_Record_Layout_plus_IO_Code_list.txt) are the variable 
+explanations for the CPS as of January 2023. You can also find the variable explanations for any
+Census Bureau survey in the corresponding variable list for the survey in the [Census Data API Discovery Tool](https://api.census.gov/data.html).
+The ACS is conducted annually and has more variables that 
 can be used as features/targets/groups while the CPS is conducted monthly and focuses 
 on labor force statistics.
 

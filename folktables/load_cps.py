@@ -45,10 +45,8 @@ def retrieve_data(root_dir, year, month, states=None, download=False):
         raise FileNotFoundError(f'Could not find survey data for {month} {year}. Call get_data with download=True to download the dataset.')
     else:
         df = download_data(filepath, year, month)
-
     if states != None:
         df = filter_by_state(df, states)
-
     return df
 
 def download_data(filepath, year, month):
@@ -58,8 +56,8 @@ def download_data(filepath, year, month):
     response = requests.get(url)
     with open(filepath, 'wb') as handle:
         handle.write(response.content)
-    df = pd.read_csv(filepath).replace(' ','')
-    return df
+    return pd.read_csv(filepath).replace(' ','')
 
 def filter_by_state(df, state_list):
     return df[df['GESTFIPS'].isin([int(_STATE_CODES[state]) for state in state_list])]
+    
