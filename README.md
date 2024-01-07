@@ -53,8 +53,17 @@ pip install -r requirements.txt
 Folktables contains a suite of prediction tasks derived from US Census data that
 can be easily downloaded and used for a variety of benchmarking tasks.
 For information about the features, response, or group membership coding for any
-of the datasets, please refer to the [ACS PUMS
+of the American Community Survey (ACS) datasets, please refer to the [ACS PUMS
 documentation](https://www.census.gov/programs-surveys/acs/microdata/documentation.html).
+To see this information for [Current Population Survey](https://www.census.gov/programs-surveys/cps.html) 
+(CPS) datasets, refer [here](https://www2.census.gov/programs-surveys/cps/datasets/) 
+and navigate to the IO Code List `.txt` file in the `basic/` folder
+of the year you are pulling data from. For example, [here](https://www2.census.gov/programs-surveys/cps/datasets/2023/basic/2023_Basic_CPS_Public_Use_Record_Layout_plus_IO_Code_list.txt) are the variable 
+explanations for the CPS as of January 2023. You can also find the variable explanations for any
+Census Bureau survey in the corresponding variable list for the survey in the [Census Data API Discovery Tool](https://api.census.gov/data.html).
+The ACS is conducted annually and has more variables that 
+can be used as features/targets/groups while the CPS is conducted monthly and focuses 
+on labor force statistics.
 
 
 ### Evaluating algorithms for fair machine learning
@@ -98,7 +107,7 @@ The ACS data source contains data for all fifty states, each of which has a
 slightly different distribution of features and response. This increases the
 diversity of environments in which we can evaluate our methods. For instance, we
 can generate another `ACSEmployment` task using data from Texas and repeat the
-experiment
+experiment.
 ```py
 acs_tx = data_source.get_data(states=["TX"], download=True)
 tx_features, tx_label, tx_group = ACSEmployment.df_to_numpy(acs_tx)
@@ -115,6 +124,29 @@ white_tpr = np.mean(yhat[(y_test == 1) & (group_test == 1)])
 black_tpr = np.mean(yhat[(y_test == 1) & (group_test == 2)])
 
 # Equality of opportunity violation: 0.0397
+white_tpr - black_tpr
+```
+The CPS data source contains more specific labor force and employment data. It 
+is also separable by state as well as the District of Columbia. Below is the
+`CPSEmployment` task, which has different features from `ACSEmployment`, using data from DC.
+```py
+from folktables import CPSDataSource, CPSEmployment
+
+data_source = CPSDataSource(survey_year=2023, survey_month='jan')
+cps_data = data_source.get_data(states=["DC"], download=True)
+features, label, group = CPSEmployment.df_to_numpy(cps_data)
+
+X_train, X_test, y_train, y_test, group_train, group_test = train_test_split(
+    features, label, group, test_size=0.2, random_state=0)
+
+model = make_pipeline(StandardScaler(), LogisticRegression())
+model.fit(X_train, y_train)
+
+yhat = model.predict(X_test)
+white_tpr = np.mean(yhat[(y_test == 1) & (group_test == 1)])
+black_tpr = np.mean(yhat[(y_test == 1) & (group_test == 2)])
+
+# Equality of opportunity violation: 0.0783
 white_tpr - black_tpr
 ```
 
@@ -195,11 +227,19 @@ Folktables provides the following pre-defined prediction tasks:
 
 - **ACSPublicCoverage**: predict whether an individual is covered by public health insurance, after filtering the ACS PUMS data sample to only include individuals under the age of 65, and those with an income of less than \$30,000. This filtering focuses the prediction problem on low-income individuals who are not eligible for Medicare.
 
+- **ACSHealthInsurance**: predict whether an individual has purchased insurance directly from an insurance company or not.
+
 - **ACSMobility**: predict whether an individual had the same residential address one year ago, after filtering the ACS PUMS data sample to only include individuals between the ages of 18 and 35. This filtering increases the difficulty of the prediction task, as the base rate of staying at the same address is above 90\% for the general population. 
 
-- **ACSEmployment**: predict whether an individual is employed, after filtering the ACS PUMS data sample to only include individuals between the ages of 16 and 90. 
+- **ACSEmployment**: predict whether an individual is employed.
+
+- **ACSEmploymentFiltered**: predict whether an individual is employed, after filtering the ACS PUMS data sample to only include individuals between the ages of 16 and 90. 
 
 - **ACSTravelTime**: predict whether an individual has a commute to work that is longer than 20 minutes, after filtering the ACS PUMS data sample to only include individuals who are employed and above the age of 16. The threshold of 20 minutes was chosen as it is the US-wide median travel time to work  in the 2018 ACS PUMS data release.
+
+- **ACSIncomePovertyRatio**: predict an individual's income as a ratio of the poverty rate.
+
+- **CPSEmployment**: predict whether an individual is employed using data from the Current Population Survey.
 
 Each of these tasks can be instantiated on different ACS PUMS data samples, as
 illustrated in the [quick start examples](#quick-start-examples). Further
@@ -303,9 +343,10 @@ need for the North American fairness community to engage with it more strongly
 
 ## License and terms of use
 Folktables provides code to download data from the American Community Survey
-(ACS) Public Use Microdata Sample (PUMS) files managed by the US Census Bureau.
-The data itself is governed by the terms of use provided by the Census Bureau.
-For more information, see https://www.census.gov/data/developers/about/terms-of-service.html
+(ACS) Public Use Microdata Sample (PUMS) or the Current Population Survey (CPS)
+microdata files managed by the US Census Bureau. The data itself is governed by 
+the terms of use provided by the Census Bureau. For more information, see 
+https://www.census.gov/data/developers/about/terms-of-service.html
 
 The Adult reconstruction dataset is a subsample of the IPUMS CPS data available
 from https://cps.ipums.org/. The data are intended for replication purposes only.
