@@ -144,6 +144,7 @@ def load_definitions(root_dir, year=2018, horizon='1-Year', download=False):
     year_string = year if horizon == '1-Year' else f'{year - 4}-{year}'
     url = f'https://www2.census.gov/programs-surveys/acs/tech_docs/pums/data_dict/PUMS_Data_Dictionary_{year_string}.csv'
 
+    os.makedirs(base_datadir, exist_ok=True)
     response = requests.get(url)
     with open(file_path, 'wb') as handle:
         handle.write(response.content)
