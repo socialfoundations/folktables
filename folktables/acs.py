@@ -65,6 +65,9 @@ class ACSDataSource(folktables.DataSource):
         return load_definitions(root_dir=self._root_dir, year=self._survey_year, horizon=self._horizon,
                                 download=download)
 
+def fillna_safe(x, value=-1):
+    x = np.nan_to_num(x, value)
+    return pd.DataFrame(x).fillna(value=value).values
 
 def adult_filter(data):
     """Mimic the filters in place for Adult data.
@@ -98,7 +101,7 @@ ACSIncome = folktables.BasicProblem(
     target_transform=lambda x: x > 50000,
     group='RAC1P',
     preprocess=adult_filter,
-    postprocess=lambda x: np.nan_to_num(x, -1),
+    postprocess=fillna_safe,
 )
 
 ACSEmployment = folktables.BasicProblem(
@@ -124,7 +127,7 @@ ACSEmployment = folktables.BasicProblem(
     target_transform=lambda x: x == 1,
     group='RAC1P',
     preprocess=lambda x: x,
-    postprocess=lambda x: np.nan_to_num(x, -1),
+    postprocess=fillna_safe,
 )
 
 ACSHealthInsurance = folktables.BasicProblem(
@@ -159,7 +162,7 @@ ACSHealthInsurance = folktables.BasicProblem(
     target_transform=lambda x: x == 1,
     group='RAC1P',
     preprocess=lambda x: x,
-    postprocess=lambda x: np.nan_to_num(x, -1),
+    postprocess=fillna_safe,
 )
 
 def public_coverage_filter(data):
@@ -197,7 +200,7 @@ ACSPublicCoverage = folktables.BasicProblem(
     target_transform=lambda x: x == 1,
     group='RAC1P',
     preprocess=public_coverage_filter,
-    postprocess=lambda x: np.nan_to_num(x, -1),
+    postprocess=fillna_safe,
 )
 
 def travel_time_filter(data):
@@ -233,8 +236,18 @@ ACSTravelTime = folktables.BasicProblem(
     target_transform=lambda x: x > 20,
     group='RAC1P',
     preprocess=travel_time_filter,
-    postprocess=lambda x: np.nan_to_num(x, -1),
+    postprocess=fillna_safe,
 )
+
+
+def mobility_filter(data):
+    """
+    Filters for the employment prediction task
+    """
+    df = data
+    df = df[df['AGEP'] > 18]
+    df = df[df['AGEP'] < 35]
+    return df
 
 ACSMobility = folktables.BasicProblem(
     features=[
@@ -263,8 +276,8 @@ ACSMobility = folktables.BasicProblem(
     target="MIG",
     target_transform=lambda x: x == 1,
     group='RAC1P',
-    preprocess=lambda x: x.drop(x.loc[(x['AGEP'] <= 18) | (x['AGEP'] >= 35)].index),
-    postprocess=lambda x: np.nan_to_num(x, -1),
+    preprocess=mobility_filter,
+    postprocess=fillna_safe,
 )
 
 def employment_filter(data):
@@ -301,7 +314,7 @@ ACSEmploymentFiltered = folktables.BasicProblem(
     target_transform=lambda x: x == 1,
     group='RAC1P',
     preprocess=employment_filter,
-    postprocess=lambda x: np.nan_to_num(x, -1),
+    postprocess=fillna_safe,
 )
 
 ACSIncomePovertyRatio = folktables.BasicProblem(
@@ -331,5 +344,5 @@ ACSIncomePovertyRatio = folktables.BasicProblem(
     target_transform=lambda x: x < 250,
     group='RAC1P',
     preprocess=lambda x: x,
-    postprocess=lambda x: np.nan_to_num(x, -1),
+    postprocess=fillna_safe,
 )
