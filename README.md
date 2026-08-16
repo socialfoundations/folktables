@@ -229,9 +229,11 @@ ACSIncome = folktables.BasicProblem(
     target_transform=lambda x: x > 50000,    
     group='RAC1P',
     preprocess=folktables.adult_filter,
-    postprocess=lambda x: np.nan_to_num(x, -1),
+    postprocess=lambda x: np.nan_to_num(x, copy=True, nan=0.0),
 )
 ```
+
+**A note on missing values:** `postprocess` fills `NaN` with `0.0` by default to keep results consistent with earlier package versions. The catch is that `0` is a legitimate value for some features, so missing values and zeros become indistinguishable after postprocessing. That matters particularly for `ACSHealthInsurance`, where roughly 17% of values are NaNs, compared with about 10% genuine `0`s. If you need to preserve the distinction, write a custom `postprocess` function instead of relying on the default.
 
 
 
@@ -260,7 +262,7 @@ ACSIncomeNew = folktables.BasicProblem(
     target_transform=lambda x: x > 25000,    
     group='SEX',
     preprocess=folktables.adult_filter,
-    postprocess=lambda x: np.nan_to_num(x, -1),
+    postprocess=lambda x: np.nan_to_num(x, copy=True, nan=0.0),
 )
 ```
 
