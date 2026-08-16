@@ -11,16 +11,16 @@ SEED = 0
 
 def test_download():
     data_source = ACSDataSource(survey_year='2018', horizon='1-Year', survey='person')
-    acs_data = data_source.get_data(states=["CA"], download=True)
+    acs_data = data_source.get_data(states=["WY"], download=True)
     features, label, group = ACSEmployment.df_to_numpy(acs_data)
 
-    assert features.shape == (378817, 16)
-    assert label.shape == (378817, ) 
-    assert group.shape == (378817, )
+    assert features.shape == (5740, 16)
+    assert label.shape == (5740, )
+    assert group.shape == (5740, )
 
 def test_train():
     data_source = ACSDataSource(survey_year='2018', horizon='1-Year', survey='person')
-    acs_data = data_source.get_data(states=["CA"], download=True)
+    acs_data = data_source.get_data(states=["WY"], download=True)
     features, label, group = ACSEmployment.df_to_numpy(acs_data)
 
     X_train, X_test, y_train, y_test, group_train, group_test = train_test_split(
@@ -34,7 +34,7 @@ def test_train():
     white_tpr = np.mean(yhat[(y_test == 1) & (group_test == 1)])
     black_tpr = np.mean(yhat[(y_test == 1) & (group_test == 2)])
 
-    ref_value = 0.04490694888127078
+    ref_value = -0.17083333333333328
     assert np.allclose(white_tpr - black_tpr, ref_value, atol=1e-2), \
         f"Expected {ref_value}, got {white_tpr - black_tpr}"
 
