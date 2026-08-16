@@ -98,7 +98,7 @@ ACSIncome = folktables.BasicProblem(
     target_transform=lambda x: x > 50000,
     group='RAC1P',
     preprocess=adult_filter,
-    postprocess=lambda x: np.nan_to_num(x, -1),
+    postprocess=lambda x: np.nan_to_num(x, copy=True, nan=0.0),
 )
 
 ACSEmployment = folktables.BasicProblem(
@@ -124,7 +124,7 @@ ACSEmployment = folktables.BasicProblem(
     target_transform=lambda x: x == 1,
     group='RAC1P',
     preprocess=lambda x: x,
-    postprocess=lambda x: np.nan_to_num(x, -1),
+    postprocess=lambda x: np.nan_to_num(x, copy=True, nan=0.0),
 )
 
 ACSHealthInsurance = folktables.BasicProblem(
@@ -159,7 +159,7 @@ ACSHealthInsurance = folktables.BasicProblem(
     target_transform=lambda x: x == 1,
     group='RAC1P',
     preprocess=lambda x: x,
-    postprocess=lambda x: np.nan_to_num(x, -1),
+    postprocess=lambda x: np.nan_to_num(x, copy=True, nan=0.0),
 )
 
 def public_coverage_filter(data):
@@ -197,7 +197,7 @@ ACSPublicCoverage = folktables.BasicProblem(
     target_transform=lambda x: x == 1,
     group='RAC1P',
     preprocess=public_coverage_filter,
-    postprocess=lambda x: np.nan_to_num(x, -1),
+    postprocess=lambda x: np.nan_to_num(x, copy=True, nan=0.0),
 )
 
 def travel_time_filter(data):
@@ -233,7 +233,7 @@ ACSTravelTime = folktables.BasicProblem(
     target_transform=lambda x: x > 20,
     group='RAC1P',
     preprocess=travel_time_filter,
-    postprocess=lambda x: np.nan_to_num(x, -1),
+    postprocess=lambda x: np.nan_to_num(x, copy=True, nan=0.0),
 )
 
 ACSMobility = folktables.BasicProblem(
@@ -264,7 +264,7 @@ ACSMobility = folktables.BasicProblem(
     target_transform=lambda x: x == 1,
     group='RAC1P',
     preprocess=lambda x: x.drop(x.loc[(x['AGEP'] <= 18) | (x['AGEP'] >= 35)].index),
-    postprocess=lambda x: np.nan_to_num(x, -1),
+    postprocess=lambda x: np.nan_to_num(x, copy=True, nan=0.0),
 )
 
 def employment_filter(data):
@@ -301,7 +301,7 @@ ACSEmploymentFiltered = folktables.BasicProblem(
     target_transform=lambda x: x == 1,
     group='RAC1P',
     preprocess=employment_filter,
-    postprocess=lambda x: np.nan_to_num(x, -1),
+    postprocess=lambda x: np.nan_to_num(x, copy=True, nan=0.0),
 )
 
 ACSIncomePovertyRatio = folktables.BasicProblem(
@@ -331,5 +331,5 @@ ACSIncomePovertyRatio = folktables.BasicProblem(
     target_transform=lambda x: x < 250,
     group='RAC1P',
     preprocess=lambda x: x,
-    postprocess=lambda x: np.nan_to_num(x, -1),
+    postprocess=lambda x: np.nan_to_num(x, copy=True, nan=0.0),
 )
